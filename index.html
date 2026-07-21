@@ -3,10 +3,10 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>AZYL.ai — Safe harbor for AI risk.</title>
+<title>AZYL.ai — Democratized AI. Centralized Governance.</title>
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
-<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Inter:wght@100;200;300;400&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400&family=Spectral:ital,wght@1,400&display=swap" rel="stylesheet"/>
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -32,38 +32,8 @@
   .page {
     height: 100vh;
     display: grid;
-    grid-template-rows: 64px 1fr 52px;
+    grid-template-rows: 1fr 52px;
     padding: 0 52px;
-  }
-
-  /* ── NAV ── */
-  nav {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    border-bottom: 1px solid var(--rule);
-  }
-  .nav-domain {
-    font-size: 10px;
-    font-weight: 300;
-    letter-spacing: 3px;
-    color: var(--dim);
-    text-transform: uppercase;
-  }
-  .nav-cta {
-    font-size: 10px;
-    font-weight: 300;
-    letter-spacing: 2px;
-    color: var(--muted);
-    text-decoration: none;
-    text-transform: uppercase;
-    transition: color 0.3s;
-    padding-bottom: 1px;
-    border-bottom: 1px solid transparent;
-  }
-  .nav-cta:hover {
-    color: var(--silver);
-    border-bottom-color: var(--dim);
   }
 
   /* ── HERO ── */
@@ -154,31 +124,35 @@
     animation: fadeUp 0.9s cubic-bezier(0.16,1,0.3,1) 1.6s forwards;
   }
   .tagline-text {
-    font-family: 'DM Serif Display', serif;
+    font-family: 'Spectral', serif;
     font-style: italic;
+    font-weight: 400;
     font-size: 17px;
     color: var(--silver);
-    letter-spacing: 0.3px;
-    opacity: 0.75;
+    letter-spacing: 0.2px;
+    text-align: center;
   }
 
-  /* ── FOOTER — ghost email only ── */
+  /* ── FOOTER — sole contact ── */
   footer {
     display: flex;
     align-items: center;
     justify-content: center;
   }
   .footer-email {
-    font-size: 10px;
+    font-size: 11px;
     font-weight: 300;
     letter-spacing: 2.5px;
-    color: var(--rule);
+    color: var(--muted);
     text-transform: uppercase;
     text-decoration: none;
-    transition: color 0.4s;
+    padding-bottom: 2px;
+    border-bottom: 1px solid transparent;
+    transition: color 0.4s, border-color 0.4s;
   }
   .footer-email:hover {
-    color: var(--dim);
+    color: var(--silver);
+    border-bottom-color: var(--dim);
   }
 
   @media (max-width: 600px) {
@@ -191,11 +165,6 @@
 </head>
 <body>
 <div class="page">
-
-  <nav>
-    <span class="nav-domain">azyl.ai</span>
-    <a href="mailto:INFO@AZYL.AI" class="nav-cta">Get in touch</a>
-  </nav>
 
   <main class="hero">
     <div class="glow"></div>
@@ -218,7 +187,7 @@
       </div>
 
       <div class="tagline-wrap">
-        <span class="tagline-text">Safe harbor for AI risk.</span>
+        <span class="tagline-text">Democratized AI. Centralized Governance.</span>
       </div>
 
     </div>
