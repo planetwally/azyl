@@ -3,22 +3,26 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>AZYL.ai — Democratized AI. Centralized Governance.</title>
+<title>AZYL.ai — Safe harbor for AI risk.</title>
+<meta name="description" content="AZYL.ai — Safe harbor for AI risk."/>
+<meta name="theme-color" content="#1A1917"/>
+<link rel="icon" href="favicon.ico" sizes="any"/>
+<link rel="icon" href="favicon.svg" type="image/svg+xml"/>
+<link rel="apple-touch-icon" href="apple-touch-icon.png"/>
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400&family=Spectral:ital,wght@1,400&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Inter:wght@100;200;300;400&display=swap" rel="stylesheet"/>
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
   :root {
-    --bg:      #010810;
-    --mid:     #0A1830;
-    --blue:    #3A7BD5;
-    --silver:  #B8CCE4;
-    --ghost:   #E8EFF8;
-    --rule:    #12253D;
-    --dim:     #2A4468;
-    --muted:   #3A5878;
+    --bg:      #1A1917;
+    --blue:    #DCFF2E;
+    --silver:  #D6D2CA;
+    --ghost:   #F3F1EC;
+    --rule:    #282623;
+    --dim:     #4A4741;
+    --muted:   #6E6A63;
   }
 
   html, body {
@@ -32,8 +36,38 @@
   .page {
     height: 100vh;
     display: grid;
-    grid-template-rows: 1fr 52px;
+    grid-template-rows: 64px 1fr 52px;
     padding: 0 52px;
+  }
+
+  /* ── NAV ── */
+  nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid var(--rule);
+  }
+  .nav-domain {
+    font-size: 10px;
+    font-weight: 300;
+    letter-spacing: 3px;
+    color: var(--dim);
+    text-transform: uppercase;
+  }
+  .nav-cta {
+    font-size: 10px;
+    font-weight: 300;
+    letter-spacing: 2px;
+    color: var(--muted);
+    text-decoration: none;
+    text-transform: uppercase;
+    transition: color 0.3s;
+    padding-bottom: 1px;
+    border-bottom: 1px solid transparent;
+  }
+  .nav-cta:hover {
+    color: var(--silver);
+    border-bottom-color: var(--dim);
   }
 
   /* ── HERO ── */
@@ -52,7 +86,7 @@
     width: 600px;
     height: 600px;
     border-radius: 50%;
-    background: radial-gradient(circle, rgba(58,123,213,0.09) 0%, transparent 68%);
+    background: radial-gradient(circle, rgba(255,240,210,0.035) 0%, transparent 68%);
     pointer-events: none;
     top: 50%;
     left: 50%;
@@ -84,6 +118,7 @@
     to { stroke-dashoffset: 0; }
   }
   .arc-dot {
+    filter: drop-shadow(0 0 5px rgba(220,255,46,0.45));
     opacity: 0;
     transform-origin: center;
     transform: scale(0);
@@ -124,35 +159,38 @@
     animation: fadeUp 0.9s cubic-bezier(0.16,1,0.3,1) 1.6s forwards;
   }
   .tagline-text {
-    font-family: 'Spectral', serif;
+    font-family: 'DM Serif Display', serif;
     font-style: italic;
-    font-weight: 400;
     font-size: 17px;
     color: var(--silver);
-    letter-spacing: 0.2px;
-    text-align: center;
+    letter-spacing: 0.3px;
+    opacity: 0.75;
   }
 
-  /* ── FOOTER — sole contact ── */
+  /* ── FOOTER — ghost email only ── */
   footer {
     display: flex;
     align-items: center;
     justify-content: center;
   }
   .footer-email {
-    font-size: 11px;
+    font-size: 10px;
     font-weight: 300;
     letter-spacing: 2.5px;
-    color: var(--muted);
+    color: var(--rule);
     text-transform: uppercase;
     text-decoration: none;
-    padding-bottom: 2px;
-    border-bottom: 1px solid transparent;
-    transition: color 0.4s, border-color 0.4s;
+    transition: color 0.4s;
   }
   .footer-email:hover {
-    color: var(--silver);
-    border-bottom-color: var(--dim);
+    color: var(--dim);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .logo-wrap, .tagline-wrap, .arc-path, .arc-dot {
+      animation-duration: 0.01s !important;
+      animation-delay: 0s !important;
+    }
   }
 
   @media (max-width: 600px) {
@@ -166,6 +204,11 @@
 <body>
 <div class="page">
 
+  <nav>
+    <span class="nav-domain">azyl.ai</span>
+    <a href="mailto:INFO@AZYL.AI" class="nav-cta">Get in touch</a>
+  </nav>
+
   <main class="hero">
     <div class="glow"></div>
 
@@ -176,10 +219,10 @@
         <path class="arc-path"
           d="M10,70 A56,56 0 0,1 110,70"
           fill="none"
-          stroke="#B8CCE4"
+          stroke="#D6D2CA"
           stroke-width="2.5"
           stroke-linecap="round"/>
-        <circle class="arc-dot" cx="60" cy="70" r="5.5" fill="#3A7BD5"/>
+        <circle class="arc-dot" cx="60" cy="70" r="5.5" fill="#DCFF2E"/>
       </svg>
 
       <div class="wordmark-row">
@@ -187,7 +230,7 @@
       </div>
 
       <div class="tagline-wrap">
-        <span class="tagline-text">Democratized AI. Centralized Governance.</span>
+        <span class="tagline-text">Safe harbor for AI risk.</span>
       </div>
 
     </div>
