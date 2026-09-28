@@ -80,19 +80,6 @@
     gap: 0;
   }
 
-  /* Deep radial glow — slightly more present than before */
-  .glow {
-    position: absolute;
-    width: 600px;
-    height: 600px;
-    border-radius: 50%;
-    background: radial-gradient(circle, rgba(255,240,210,0.035) 0%, transparent 68%);
-    pointer-events: none;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-  }
-
   .logo-wrap {
     display: flex;
     flex-direction: column;
@@ -151,6 +138,7 @@
 
   /* ── TAGLINE ── */
   .tagline-wrap {
+    min-height: 26px;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -159,6 +147,7 @@
     animation: fadeUp 0.9s cubic-bezier(0.16,1,0.3,1) 1.6s forwards;
   }
   .tagline-text {
+    transition: opacity 0.8s ease;
     font-family: 'DM Serif Display', serif;
     font-style: italic;
     font-size: 17px;
@@ -210,7 +199,6 @@
   </nav>
 
   <main class="hero">
-    <div class="glow"></div>
 
     <div class="logo-wrap">
 
@@ -241,5 +229,26 @@
   </footer>
 
 </div>
+
+<script>
+  (function () {
+    var lines = [
+      "Safe harbor for AI risk.",
+      "Democratized AI.",
+      "Centralized AI governance."
+    ];
+    var el = document.querySelector(".tagline-text");
+    if (!el || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    var i = 0;
+    setInterval(function () {
+      el.style.opacity = "0";
+      setTimeout(function () {
+        i = (i + 1) % lines.length;
+        el.textContent = lines[i];
+        el.style.opacity = "";
+      }, 800);
+    }, 5500);
+  })();
+</script>
 </body>
 </html>
