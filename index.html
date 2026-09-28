@@ -11,7 +11,7 @@
 <link rel="apple-touch-icon" href="apple-touch-icon.png"/>
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
-<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Inter:wght@100;200;300;400&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@300;400&family=Inter:wght@100;200;300;400&display=swap" rel="stylesheet"/>
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -138,22 +138,28 @@
 
   /* ── TAGLINE ── */
   .tagline-wrap {
-    min-height: 26px;
+    min-height: 24px;
     display: flex;
     flex-direction: column;
     align-items: center;
     gap: 0;
-    opacity: 0;
-    animation: fadeUp 0.9s cubic-bezier(0.16,1,0.3,1) 1.6s forwards;
   }
   .tagline-text {
-    transition: opacity 0.8s ease;
-    font-family: 'DM Serif Display', serif;
-    font-style: italic;
-    font-size: 17px;
+    font-family: 'IBM Plex Mono', ui-monospace, 'SFMono-Regular', Menlo, Consolas, monospace;
+    font-weight: 300;
+    font-size: 14px;
+    letter-spacing: 1px;
     color: var(--silver);
-    letter-spacing: 0.3px;
-    opacity: 0.75;
+    opacity: 0.85;
+    white-space: pre;
+  }
+  .tagline-text .ch { visibility: hidden; }
+  .tagline-text .ch.on { visibility: visible; }
+  /* a character mid-decode flickers in lime before settling */
+  .tagline-text .ch.scr { visibility: visible; color: var(--blue); }
+  .sr-only {
+    position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
+    overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0;
   }
 
   /* ── FOOTER — ghost email only ── */
@@ -186,7 +192,7 @@
     .page { padding: 0 28px; }
     .wordmark-azyl { font-size: 40px; letter-spacing: 10px; }
     .wordmark-ai { font-size: 20px; }
-    .tagline-text { font-size: 15px; }
+    .tagline-text { font-size: 12px; letter-spacing: 0.5px; }
   }
 </style>
 </head>
@@ -218,7 +224,8 @@
       </div>
 
       <div class="tagline-wrap">
-        <span class="tagline-text">Safe harbor for AI risk.</span>
+        <span class="tagline-text" aria-hidden="true"></span>
+        <span class="sr-only" id="tagline-sr">Safe harbor for AI risk.</span>
       </div>
 
     </div>
@@ -237,17 +244,88 @@
       "Democratized AI.",
       "Centralized AI governance."
     ];
+    var GLYPHS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789#%&*+=/<>";
     var el = document.querySelector(".tagline-text");
-    if (!el || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-    var i = 0;
-    setInterval(function () {
-      el.style.opacity = "0";
-      setTimeout(function () {
+    var sr = document.getElementById("tagline-sr");
+    var reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+    function wait(ms) { return new Promise(function (r) { setTimeout(r, ms); }); }
+    function rand(s) { return s[Math.floor(Math.random() * s.length)]; }
+    function shuffled(a) {
+      a = a.slice();
+      for (var i = a.length - 1; i > 0; i--) {
+        var j = Math.floor(Math.random() * (i + 1)); var t = a[i]; a[i] = a[j]; a[j] = t;
+      }
+      return a;
+    }
+
+    // lay out every character up front (hidden), so the line never shifts while it decodes
+    function build(text) {
+      el.innerHTML = "";
+      var spans = [];
+      for (var i = 0; i < text.length; i++) {
+        var s = document.createElement("span");
+        s.className = "ch";
+        s.textContent = text[i];
+        el.appendChild(s);
+        spans.push(s);
+      }
+      return spans;
+    }
+
+    // letters appear in random order; each flickers through a few lime glyphs, then settles
+    function decode(text) {
+      var spans = build(text);
+      var idx = [];
+      for (var i = 0; i < text.length; i++) if (text[i] !== " ") idx.push(i);
+      var order = shuffled(idx);
+      var step = 1000 / order.length;
+      var jobs = order.map(function (i, k) {
+        return wait(k * step + Math.random() * 60).then(function () {
+          var s = spans[i], n = 3 + Math.floor(Math.random() * 3), c = 0;
+          s.classList.add("scr");
+          return new Promise(function (done) {
+            var t = setInterval(function () {
+              if (c++ < n) { s.textContent = rand(GLYPHS); return; }
+              clearInterval(t);
+              s.textContent = text[i];
+              s.classList.remove("scr");
+              s.classList.add("on");
+              done();
+            }, 45);
+          });
+        });
+      });
+      return Promise.all(jobs);
+    }
+
+    // letters vanish in random order
+    function erase() {
+      var spans = [].slice.call(el.querySelectorAll(".ch.on"));
+      var order = shuffled(spans);
+      var step = 450 / Math.max(order.length, 1);
+      return Promise.all(order.map(function (s, k) {
+        return wait(k * step).then(function () { s.classList.remove("on"); });
+      }));
+    }
+
+    if (reduced) {
+      build(lines[0]).forEach(function (s) { s.classList.add("on"); });
+      return;
+    }
+
+    (async function loop() {
+      await wait(2300); // let the arc draw and the dot drop first
+      var i = 0;
+      while (true) {
+        sr.textContent = lines[i];
+        await decode(lines[i]);
+        await wait(4500);
+        await erase();
+        await wait(350);
         i = (i + 1) % lines.length;
-        el.textContent = lines[i];
-        el.style.opacity = "";
-      }, 800);
-    }, 5500);
+      }
+    })();
   })();
 </script>
 </body>
