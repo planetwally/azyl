@@ -69,6 +69,37 @@
     color: var(--silver);
     border-bottom-color: var(--dim);
   }
+  .nav-links {
+    display: flex;
+    align-items: center;
+    gap: 36px;
+  }
+  button.nav-cta {
+    background: none;
+    border: 0;
+    border-bottom: 1px solid transparent;
+    font-family: inherit;
+    cursor: pointer;
+  }
+
+  /* the harbor mark doubles as the way in to the founder panel */
+  .mark-btn {
+    background: none;
+    border: 0;
+    padding: 0;
+    cursor: pointer;
+    border-radius: 8px;
+  }
+  .mark-btn:focus-visible,
+  .nav-cta:focus-visible,
+  .profile-close:focus-visible,
+  .profile-action:focus-visible {
+    outline: 1px solid var(--blue);
+    outline-offset: 6px;
+  }
+  .mark-btn .arc-path { transition: stroke 0.4s; }
+  .mark-btn:hover .arc-path { stroke: var(--ghost); }
+  .mark-btn:hover .arc-dot { filter: drop-shadow(0 0 9px rgba(220,255,46,0.75)); }
 
   /* ── HERO ── */
   .hero {
@@ -181,8 +212,264 @@
     color: var(--dim);
   }
 
+  /* ── FOUNDER PANEL ── */
+  .profile {
+    --panel: #201F1C;
+    --label: #8C877F;
+    position: fixed;
+    inset: 0 0 0 auto;
+    width: min(580px, 100vw);
+    max-width: 100vw;
+    height: 100vh;
+    max-height: 100vh;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    border-left: 1px solid var(--rule);
+    background: var(--panel);
+    color: var(--ghost);
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    z-index: 100;
+  }
+  .profile[open] { animation: panelIn 0.6s cubic-bezier(0.16,1,0.3,1); }
+  .profile.closing { animation: panelOut 0.35s cubic-bezier(0.7,0,0.84,0) forwards; }
+  @keyframes panelIn  { from { transform: translateX(100%); } to { transform: translateX(0); } }
+  @keyframes panelOut { from { transform: translateX(0); } to { transform: translateX(100%); } }
+
+  .profile::backdrop {
+    background: rgba(12,12,11,0.62);
+    backdrop-filter: blur(3px);
+    -webkit-backdrop-filter: blur(3px);
+    animation: fadeIn 0.6s ease;
+  }
+  .profile.closing::backdrop { animation: fadeOut 0.35s ease forwards; }
+  @keyframes fadeIn  { from { opacity: 0; } }
+  @keyframes fadeOut { to   { opacity: 0; } }
+
+  .profile-inner {
+    padding: 28px 52px 56px;
+    display: flex;
+    flex-direction: column;
+    min-height: 100%;
+  }
+  .profile-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 36px;
+    margin-bottom: 36px;
+  }
+  .label {
+    font-family: 'IBM Plex Mono', ui-monospace, Menlo, Consolas, monospace;
+    font-size: 10px;
+    font-weight: 400;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    color: var(--label);
+  }
+  .profile-close {
+    width: 36px;
+    height: 36px;
+    display: grid;
+    place-items: center;
+    background: none;
+    border: 1px solid var(--rule);
+    border-radius: 50%;
+    color: var(--muted);
+    cursor: pointer;
+    transition: color 0.3s, border-color 0.3s;
+  }
+  .profile-close:hover { color: var(--ghost); border-color: var(--dim); }
+
+  .profile-top {
+    display: grid;
+    grid-template-columns: 148px 1fr;
+    gap: 28px;
+    align-items: end;
+  }
+  .portrait {
+    width: 148px;
+    height: auto;
+    aspect-ratio: 4 / 5;
+    object-fit: cover;
+    border-radius: 4px;
+    filter: grayscale(1) contrast(1.04) brightness(0.9);
+    display: block;
+  }
+  .profile-name {
+    font-size: 30px;
+    font-weight: 200;
+    letter-spacing: 1px;
+    line-height: 1.15;
+    color: var(--ghost);
+  }
+  .profile-role {
+    margin-top: 12px;
+    font-family: 'IBM Plex Mono', ui-monospace, Menlo, Consolas, monospace;
+    font-size: 11px;
+    font-weight: 400;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--blue);
+  }
+  .profile-loc {
+    margin-top: 6px;
+    font-size: 12px;
+    font-weight: 300;
+    color: var(--label);
+  }
+
+  .profile-bio {
+    margin-top: 36px;
+    padding-top: 28px;
+    border-top: 1px solid var(--rule);
+    font-size: 15px;
+    font-weight: 300;
+    line-height: 1.7;
+    color: var(--silver);
+  }
+  .profile-bio p + p { margin-top: 14px; }
+
+  .profile-section { margin-top: 32px; }
+  .profile-section .label { display: block; margin-bottom: 14px; }
+
+  .cred-list { list-style: none; }
+  .cred-list li {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 16px;
+    padding: 11px 0;
+    border-bottom: 1px solid var(--rule);
+    font-size: 14px;
+    font-weight: 300;
+    color: var(--ghost);
+  }
+  .cred-list li:first-child { border-top: 1px solid var(--rule); }
+  .cred-list .meta {
+    font-family: 'IBM Plex Mono', ui-monospace, Menlo, Consolas, monospace;
+    font-size: 11px;
+    color: var(--label);
+    white-space: nowrap;
+  }
+
+  .tags { display: flex; flex-wrap: wrap; gap: 8px; list-style: none; }
+  .tags li {
+    font-size: 12px;
+    font-weight: 300;
+    color: var(--silver);
+    padding: 6px 12px;
+    border: 1px solid var(--rule);
+    border-radius: 999px;
+  }
+
+  .profile-actions {
+    margin-top: auto;
+    padding-top: 44px;
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+  .profile-action {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 18px;
+    font-size: 11px;
+    font-weight: 400;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    text-decoration: none;
+    color: var(--ghost);
+    border: 1px solid var(--dim);
+    border-radius: 2px;
+    transition: border-color 0.3s, color 0.3s, background 0.3s;
+  }
+  .profile-action:hover { border-color: var(--silver); }
+  .profile-action.primary { background: var(--blue); border-color: var(--blue); color: var(--bg); }
+  .profile-action.primary:hover { background: #E8FF6E; border-color: #E8FF6E; }
+
+  .profile-quote {
+    margin-top: 36px;
+    padding-top: 28px;
+    border-top: 1px solid var(--rule);
+    font-size: 21px;
+    font-weight: 200;
+    line-height: 1.4;
+    color: var(--ghost);
+  }
+  .profile-quote em { font-style: normal; color: var(--blue); }
+  .profile-quote + .profile-bio { margin-top: 20px; padding-top: 0; border-top: 0; }
+
+  .event-strip {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 6px;
+    margin-bottom: 14px;
+  }
+  .event-strip img {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 4 / 3;
+    object-fit: cover;
+    display: block;
+    border-radius: 2px;
+    filter: grayscale(1) brightness(0.85);
+    transition: filter 0.5s;
+  }
+  .event-strip img:hover { filter: none; }
+
+  .talks { list-style: none; }
+  .talks li {
+    padding: 11px 0;
+    border-bottom: 1px solid var(--rule);
+  }
+  .talks li:first-child { border-top: 1px solid var(--rule); }
+  .talk-title {
+    display: block;
+    font-size: 14px;
+    font-weight: 300;
+    color: var(--ghost);
+  }
+  .talk-meta {
+    display: block;
+    margin-top: 4px;
+    font-family: 'IBM Plex Mono', ui-monospace, Menlo, Consolas, monospace;
+    font-size: 11px;
+    color: var(--label);
+  }
+
+  .services { display: grid; gap: 10px; }
+  .service {
+    display: grid;
+    grid-template-columns: 34px 1fr;
+    padding: 18px 20px 18px 16px;
+    border: 1px solid var(--rule);
+    border-radius: 3px;
+    background: rgba(255,255,255,0.012);
+  }
+  .service-num {
+    font-family: 'IBM Plex Mono', ui-monospace, Menlo, Consolas, monospace;
+    font-size: 11px;
+    color: var(--blue);
+    padding-top: 3px;
+  }
+  .service h3 {
+    font-size: 16px;
+    font-weight: 400;
+    color: var(--ghost);
+  }
+  .service p {
+    margin-top: 6px;
+    font-size: 13.5px;
+    font-weight: 300;
+    line-height: 1.6;
+    color: var(--silver);
+  }
+
   @media (prefers-reduced-motion: reduce) {
-    .logo-wrap, .tagline-wrap, .arc-path, .arc-dot {
+    .logo-wrap, .tagline-wrap, .arc-path, .arc-dot,
+    .profile, .profile::backdrop {
       animation-duration: 0.01s !important;
       animation-delay: 0s !important;
     }
@@ -193,6 +480,14 @@
     .wordmark-azyl { font-size: 40px; letter-spacing: 10px; }
     .wordmark-ai { font-size: 20px; }
     .tagline-text { font-size: 12px; letter-spacing: 0.5px; }
+    .nav-links { gap: 22px; }
+    .profile { border-left: 0; }
+    .profile-inner { padding: 20px 24px 40px; }
+    .profile-top { grid-template-columns: 104px 1fr; gap: 20px; }
+    .portrait { width: 104px; }
+    .profile-name { font-size: 24px; }
+    .profile-role { font-size: 10px; letter-spacing: 1px; }
+    .profile-quote { font-size: 19px; }
   }
 </style>
 </head>
@@ -201,7 +496,10 @@
 
   <nav>
     <span class="nav-domain">azyl.ai</span>
-    <a href="mailto:INFO@AZYL.AI" class="nav-cta">Get in touch</a>
+    <div class="nav-links">
+      <button type="button" class="nav-cta" data-open-profile>Founder</button>
+      <a href="mailto:INFO@AZYL.AI" class="nav-cta">Get in touch</a>
+    </div>
   </nav>
 
   <main class="hero">
@@ -209,7 +507,8 @@
     <div class="logo-wrap">
 
       <!-- Harbor Arc — arc draws in, dot pops -->
-      <svg viewBox="0 0 120 82" width="120" height="82" aria-label="Azyl harbor arc">
+      <button type="button" class="mark-btn" data-open-profile aria-label="About the founder">
+      <svg viewBox="0 0 120 82" width="120" height="82" aria-hidden="true">
         <path class="arc-path"
           d="M10,70 A56,56 0 0,1 110,70"
           fill="none"
@@ -218,6 +517,7 @@
           stroke-linecap="round"/>
         <circle class="arc-dot" cx="60" cy="70" r="5.5" fill="#DCFF2E"/>
       </svg>
+      </button>
 
       <div class="wordmark-row">
         <span class="wordmark-azyl">AZYL</span><span class="wordmark-ai">.ai</span>
@@ -236,6 +536,137 @@
   </footer>
 
 </div>
+
+<dialog class="profile" id="profile" aria-labelledby="profile-name">
+  <div class="profile-inner">
+
+    <div class="profile-head">
+      <span class="label">Founder</span>
+      <button type="button" class="profile-close" aria-label="Close" data-close-profile>
+        <svg width="12" height="12" viewBox="0 0 12 12" aria-hidden="true">
+          <path d="M1 1l10 10M11 1L1 11" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/>
+        </svg>
+      </button>
+    </div>
+
+    <div class="profile-top">
+      <img class="portrait" src="img/wally-koscielny.jpg" width="720" height="900"
+           alt="Portrait of Wally Koscielny" decoding="async"/>
+      <div>
+        <h2 class="profile-name" id="profile-name">Wally Koscielny</h2>
+        <div class="profile-role">Fractional CAIO · Board Advisor</div>
+        <div class="profile-loc">New York Metro</div>
+      </div>
+    </div>
+
+    <p class="profile-quote">Democratizing enterprise AI, <em>safely.</em></p>
+
+    <div class="profile-bio">
+      <p>Wally Koscielny has spent 25+ years governing technology risk inside globally
+        systemic financial institutions. At BNY, Wally launched and chaired the Risk &amp;
+        Control AI Governance Council, co-authored the firm&rsquo;s first enterprise AI risk
+        and control standards, anchored in the NIST AI RMF, and pioneered some of its first
+        multi-agent systems.</p>
+      <p>AZYL.ai brings that experience to leadership teams and boards: governance that
+        engineers can operate, and that regulators and directors can trust.</p>
+    </div>
+
+    <div class="profile-section">
+      <span class="label">Engagements</span>
+      <div class="services">
+        <div class="service">
+          <span class="service-num">01</span>
+          <div>
+            <h3>Fractional Chief AI Officer</h3>
+            <p>Executive AI leadership without a full-time hire. AI strategy and use case
+              portfolio, a governance council and standards that fit your risk appetite, and
+              proportionate controls built into delivery rather than bolted on.</p>
+          </div>
+        </div>
+        <div class="service">
+          <span class="service-num">02</span>
+          <div>
+            <h3>Board Advisory</h3>
+            <p>Independent counsel for boards and risk committees on AI risk posture,
+              oversight duties, and regulatory exposure, including the right questions to put
+              to management.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="profile-section">
+      <span class="label">Track record</span>
+      <ul class="cred-list">
+        <li><span>Founding Chair, Risk &amp; Control AI Governance Council</span><span class="meta">BNY</span></li>
+        <li><span>Co-author, enterprise AI Risk &amp; Control Standards</span><span class="meta">NIST AI RMF</span></li>
+        <li><span>Board, ExCo and C-suite presentations on AI and risk</span><span class="meta">50+</span></li>
+        <li><span>Regulator briefings on AI governance</span><span class="meta">FRBNY · OCC</span></li>
+      </ul>
+    </div>
+
+    <div class="profile-section">
+      <span class="label">Speaking</span>
+      <div class="event-strip">
+        <img src="img/speaking/bci-summit-panel.jpg" width="600" height="450" decoding="async"
+             alt="Wally Koscielny speaking on a panel about AI regulation, risks and controls at BCI Summit"/>
+        <img src="img/speaking/bny-ai-expo-2024.jpg" width="600" height="450" decoding="async"
+             alt="Wally Koscielny presenting AI use cases at the BNY Global AI Expo 2024"/>
+        <img src="img/speaking/bci-summit-upskilling.jpg" width="600" height="450" decoding="async"
+             alt="Wally Koscielny on the BCI Summit panel Mitigating AI Risks with Employee Training and Upskilling"/>
+      </div>
+      <ul class="talks">
+        <li>
+          <span class="talk-title">AI return on investment</span>
+          <span class="talk-meta">Roundtable lead · Executive Data Council, NYC</span>
+        </li>
+        <li>
+          <span class="talk-title">AI regulations, risks and controls</span>
+          <span class="talk-meta">Panelist · BCI Summit</span>
+        </li>
+        <li>
+          <span class="talk-title">Mitigating AI risks with employee training and upskilling</span>
+          <span class="talk-meta">Panelist · BCI Summit</span>
+        </li>
+        <li>
+          <span class="talk-title">AI in risk and controls</span>
+          <span class="talk-meta">Presenter · BNY Global AI Expo 2024</span>
+        </li>
+      </ul>
+    </div>
+
+    <div class="profile-section">
+      <span class="label">Experience</span>
+      <ul class="cred-list">
+        <li><span>BNY · Head of Controls AI, Metrics &amp; Analytics</span><span class="meta">2017–2026</span></li>
+        <li><span>Goldman Sachs · Global Head of Technology Infrastructure Risk, Resiliency &amp; Controls</span><span class="meta">1999–2017</span></li>
+      </ul>
+    </div>
+
+    <div class="profile-section">
+      <span class="label">Frameworks</span>
+      <ul class="tags">
+        <li>NIST AI RMF</li>
+        <li>EU AI Act</li>
+        <li>ISO/IEC 42001</li>
+        <li>Agentic AI oversight</li>
+        <li>Model risk</li>
+        <li>FRBNY · OCC · SEC</li>
+      </ul>
+    </div>
+
+    <div class="profile-actions">
+      <a class="profile-action primary" href="mailto:INFO@AZYL.AI">Start a conversation</a>
+      <a class="profile-action" href="https://www.linkedin.com/in/planetwally" target="_blank" rel="noopener">
+        LinkedIn
+        <svg width="10" height="10" viewBox="0 0 10 10" aria-hidden="true">
+          <path d="M2 8L8 2M3.5 2H8v4.5" fill="none" stroke="currentColor" stroke-width="1.1"/>
+        </svg>
+      </a>
+    </div>
+
+  </div>
+</dialog>
 
 <script>
   (function () {
@@ -326,6 +757,38 @@
         i = (i + 1) % lines.length;
       }
     })();
+  })();
+
+  // founder panel: opens from the nav link or the harbor mark; closes on ×, Esc or backdrop click
+  (function () {
+    var dlg = document.getElementById("profile");
+    var reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+    function open() {
+      if (dlg.open) return;
+      dlg.classList.remove("closing");
+      dlg.showModal();
+    }
+    function close() {
+      if (!dlg.open || dlg.classList.contains("closing")) return;
+      if (reduced) { dlg.close(); return; }
+      dlg.classList.add("closing");
+      dlg.addEventListener("animationend", function done() {
+        dlg.removeEventListener("animationend", done);
+        dlg.classList.remove("closing");
+        dlg.close();
+      });
+    }
+
+    [].forEach.call(document.querySelectorAll("[data-open-profile]"), function (b) {
+      b.addEventListener("click", open);
+    });
+    dlg.querySelector("[data-close-profile]").addEventListener("click", close);
+    dlg.addEventListener("cancel", function (e) { e.preventDefault(); close(); });
+    dlg.addEventListener("click", function (e) { if (e.target === dlg) close(); });
+
+    // azyl.ai/#founder opens straight to the panel
+    if (location.hash === "#founder") open();
   })();
 </script>
 </body>
