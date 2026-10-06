@@ -669,6 +669,27 @@
 </dialog>
 
 <script>
+  // visitors redirected from azyl.si (Cloudflare adds ?via=si) see the .si wordmark for the session
+  (function () {
+    var params = new URLSearchParams(location.search);
+    var si = params.get("via") === "si";
+    try {
+      if (si) sessionStorage.setItem("azyl-tld", "si");
+      else si = sessionStorage.getItem("azyl-tld") === "si";
+    } catch (e) {}
+
+    if (params.has("via")) {
+      params.delete("via");
+      var q = params.toString();
+      history.replaceState(null, "", location.pathname + (q ? "?" + q : "") + location.hash);
+    }
+    if (!si) return;
+
+    document.querySelector(".wordmark-ai").textContent = ".si";
+    document.querySelector(".nav-domain").textContent = "azyl.si";
+    document.title = document.title.replace("AZYL.ai", "AZYL.si");
+  })();
+
   (function () {
     var lines = [
       "Safe harbor for AI risk.",
