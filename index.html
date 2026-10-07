@@ -448,8 +448,107 @@
     color: var(--silver);
   }
 
+  /* ── SCROLL CUE ── */
+  footer { display: flex; align-items: center; justify-content: center; }
+  .scroll-cue {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    background: none;
+    border: 0;
+    padding: 4px 8px;
+    cursor: pointer;
+    font-family: 'IBM Plex Mono', ui-monospace, Menlo, Consolas, monospace;
+    font-size: 9px;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    color: var(--dim);
+    transition: color 0.3s;
+    opacity: 0;
+    animation: cueIn 1s ease 2.6s forwards;
+  }
+  .scroll-cue:hover, .scroll-cue.lit { color: var(--silver); }
+  .scroll-cue:focus-visible { outline: 1px solid var(--blue); outline-offset: 4px; }
+  .scroll-cue svg { animation: bob 2.4s ease-in-out 3.6s infinite; }
+  @keyframes cueIn { to { opacity: 1; } }
+  @keyframes bob { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(3px); } }
+
+  .peek {
+    position: fixed;
+    top: 0;
+    right: 0;
+    height: 100vh;
+    width: 64px;
+    background: #201F1C;
+    border-left: 1px solid var(--rule);
+    transform: translateX(100%);
+    transition: transform 0.25s ease-out;
+    pointer-events: none;
+    z-index: 50;
+  }
+
+  /* ── CONTACT PANEL ── */
+  /* opened over the founder panel, it skips a second dimmed backdrop */
+  .profile.stacked::backdrop { background: transparent; backdrop-filter: none; -webkit-backdrop-filter: none; }
+
+  .contact-intro {
+    margin-top: 14px;
+    font-size: 15px;
+    font-weight: 300;
+    line-height: 1.7;
+    color: var(--silver);
+  }
+  .contact-form {
+    margin-top: 32px;
+    display: grid;
+    gap: 22px;
+    color-scheme: dark;
+  }
+  .contact-form[hidden] { display: none; }
+  .field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .field { display: grid; gap: 8px; }
+  .field .opt { color: var(--dim); letter-spacing: 1.5px; margin-left: 6px; }
+  .field input, .field select, .field textarea {
+    width: 100%;
+    font-family: inherit;
+    font-size: 15px;
+    font-weight: 300;
+    color: var(--ghost);
+    background: rgba(255,255,255,0.02);
+    border: 1px solid var(--rule);
+    border-radius: 3px;
+    padding: 12px 14px;
+    transition: border-color 0.3s;
+  }
+  .field input:hover, .field select:hover, .field textarea:hover { border-color: var(--dim); }
+  .field input:focus, .field select:focus, .field textarea:focus { outline: none; border-color: var(--blue); }
+  .field textarea { min-height: 140px; line-height: 1.6; resize: vertical; }
+  .field select {
+    appearance: none;
+    -webkit-appearance: none;
+    padding-right: 38px;
+    cursor: pointer;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'%3E%3Cpath d='M1 1l4 4 4-4' fill='none' stroke='%238C877F' stroke-width='1.2'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 14px center;
+  }
+  .hp { position: absolute; left: -9999px; width: 1px; height: 1px; opacity: 0; }
+
+  .contact-actions { display: flex; align-items: center; gap: 18px; flex-wrap: wrap; margin-top: 4px; }
+  button.profile-action { font-family: inherit; cursor: pointer; }
+  button.profile-action:disabled { opacity: 0.55; cursor: default; }
+  .contact-alt { font-size: 12px; font-weight: 300; color: var(--label); }
+  .contact-alt a { color: var(--silver); text-decoration: none; border-bottom: 1px solid var(--dim); }
+  .contact-alt a:hover { color: var(--ghost); }
+  .contact-status { min-height: 1.2em; font-size: 13px; font-weight: 300; color: var(--label); }
+  .contact-status.error { color: #FF9C8A; }
+  .contact-status a { color: inherit; }
+  .contact-done .profile-quote { border-top: 0; padding-top: 0; }
+
   @media (prefers-reduced-motion: reduce) {
-    .logo-wrap, .tagline-wrap, .arc-path, .arc-dot,
+    .scroll-cue svg { animation: none; }
+    .logo-wrap, .tagline-wrap, .arc-path, .arc-dot, .scroll-cue,
     .profile, .profile::backdrop {
       animation-duration: 0.01s !important;
       animation-delay: 0s !important;
@@ -469,6 +568,9 @@
     .profile-name { font-size: 24px; }
     .profile-role { font-size: 10px; letter-spacing: 1px; }
     .profile-quote { font-size: 19px; }
+    .field-row { grid-template-columns: 1fr; gap: 22px; }
+    /* 16px keeps iOS from zooming into fields on focus */
+    .field input, .field select, .field textarea { font-size: 16px; }
   }
 </style>
 </head>
@@ -478,8 +580,8 @@
   <nav>
     <span class="nav-domain">azyl.ai</span>
     <div class="nav-links">
-      <button type="button" class="nav-cta" data-open-profile>Founder</button>
-      <a href="mailto:wally@azyl.ai" class="nav-cta">Get in touch</a>
+      <button type="button" class="nav-cta" data-open="profile">Founder</button>
+      <a href="mailto:wally@azyl.ai" class="nav-cta" data-open="contact">Get in touch</a>
     </div>
   </nav>
 
@@ -488,7 +590,7 @@
     <div class="logo-wrap">
 
       <!-- Harbor Arc — arc draws in, dot pops -->
-      <button type="button" class="mark-btn" data-open-profile aria-label="About the founder">
+      <button type="button" class="mark-btn" data-open="profile" aria-label="About the founder">
       <svg viewBox="0 0 120 82" width="120" height="82" aria-hidden="true">
         <path class="arc-path"
           d="M10,70 A56,56 0 0,1 110,70"
@@ -512,7 +614,17 @@
     </div>
   </main>
 
-  <footer></footer>
+  <footer>
+    <button type="button" class="scroll-cue" data-open="profile" aria-label="About the founder">
+      <span>Founder</span>
+      <svg width="12" height="7" viewBox="0 0 12 7" aria-hidden="true">
+        <path d="M1 1l5 5 5-5" fill="none" stroke="currentColor" stroke-width="1.1" stroke-linecap="round"/>
+      </svg>
+    </button>
+  </footer>
+
+  <!-- the founder panel's edge, eased in by scrolling before the panel opens -->
+  <div class="peek" aria-hidden="true"></div>
 
 </div>
 
@@ -521,7 +633,7 @@
 
     <div class="profile-head">
       <span class="label">Founder</span>
-      <button type="button" class="profile-close" aria-label="Close" data-close-profile>
+      <button type="button" class="profile-close" aria-label="Close" data-close>
         <svg width="12" height="12" viewBox="0 0 12 12" aria-hidden="true">
           <path d="M1 1l10 10M11 1L1 11" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/>
         </svg>
@@ -546,12 +658,12 @@
         Control AI Governance Council, co-authored the firm&rsquo;s first enterprise AI risk
         and control standards, anchored in the NIST AI RMF, and pioneered some of its first
         multi-agent systems.</p>
-      <p>AZYL.ai brings that experience to leadership teams and boards: governance that
-        engineers can operate, and that regulators and directors can trust.</p>
+      <p>AZYL.ai brings that experience to leadership teams and boards, with AI governance
+        that does not stifle innovation, but remains credible to regulators.</p>
     </div>
 
     <div class="profile-section">
-      <span class="label">Engagements</span>
+      <span class="label">Services</span>
       <div class="services">
         <div class="service">
           <span class="service-num">01</span>
@@ -566,7 +678,7 @@
           <span class="service-num">02</span>
           <div>
             <h3>Board Advisory</h3>
-            <p>Independent counsel for boards and risk committees on AI risk posture,
+            <p>An experienced, independent perspective for boards and risk committees on AI risk posture,
               oversight duties, and regulatory exposure, including the right questions to put
               to management.</p>
           </div>
@@ -635,13 +747,80 @@
     </div>
 
     <div class="profile-actions">
-      <a class="profile-action primary" href="mailto:wally@azyl.ai">Start a conversation</a>
+      <a class="profile-action primary" href="mailto:wally@azyl.ai" data-open="contact">Start a conversation</a>
       <a class="profile-action" href="https://www.linkedin.com/in/planetwally" target="_blank" rel="noopener">
         LinkedIn
         <svg width="10" height="10" viewBox="0 0 10 10" aria-hidden="true">
           <path d="M2 8L8 2M3.5 2H8v4.5" fill="none" stroke="currentColor" stroke-width="1.1"/>
         </svg>
       </a>
+    </div>
+
+  </div>
+</dialog>
+
+<dialog class="profile" id="contact" aria-labelledby="contact-title">
+  <div class="profile-inner">
+
+    <div class="profile-head">
+      <span class="label">Contact</span>
+      <button type="button" class="profile-close" aria-label="Close" data-close>
+        <svg width="12" height="12" viewBox="0 0 12 12" aria-hidden="true">
+          <path d="M1 1l10 10M11 1L1 11" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/>
+        </svg>
+      </button>
+    </div>
+
+    <h2 class="profile-name" id="contact-title">Start a conversation</h2>
+    <p class="contact-intro">A few lines on your organization and what you&rsquo;re working
+      through is plenty. Messages go directly to Wally.</p>
+
+    <!-- submissions go to Formspree, which forwards them to wally@azyl.ai -->
+    <form class="contact-form" action="https://formspree.io/f/xnpjjzba" method="POST">
+      <input type="hidden" name="_subject" value="New inquiry via azyl.ai"/>
+      <input type="text" name="_gotcha" class="hp" tabindex="-1" autocomplete="off" aria-hidden="true"/>
+
+      <div class="field-row">
+        <div class="field">
+          <label class="label" for="c-name">Name</label>
+          <input id="c-name" name="name" type="text" autocomplete="name" required/>
+        </div>
+        <div class="field">
+          <label class="label" for="c-email">Email</label>
+          <input id="c-email" name="email" type="email" autocomplete="email" required/>
+        </div>
+      </div>
+
+      <div class="field">
+        <label class="label" for="c-org">Organization <span class="opt">optional</span></label>
+        <input id="c-org" name="organization" type="text" autocomplete="organization"/>
+      </div>
+
+      <div class="field">
+        <label class="label" for="c-topic">Interested in</label>
+        <select id="c-topic" name="interest">
+          <option>Fractional Chief AI Officer</option>
+          <option>Board advisory</option>
+          <option>Speaking</option>
+          <option>Something else</option>
+        </select>
+      </div>
+
+      <div class="field">
+        <label class="label" for="c-msg">Message</label>
+        <textarea id="c-msg" name="message" rows="6" required></textarea>
+      </div>
+
+      <div class="contact-actions">
+        <button type="submit" class="profile-action primary">Send message</button>
+        <span class="contact-alt">or email <a href="mailto:wally@azyl.ai">wally@azyl.ai</a></span>
+      </div>
+      <p class="contact-status" role="status" aria-live="polite"></p>
+    </form>
+
+    <div class="contact-done" hidden>
+      <p class="profile-quote">Thank you. Your message is <em>on its way.</em></p>
+      <p class="contact-intro">Wally will be in touch at the email address you provided.</p>
     </div>
 
   </div>
@@ -759,36 +938,124 @@
     })();
   })();
 
-  // founder panel: opens from the nav link or the harbor mark; closes on ×, Esc or backdrop click
+  // slide-in panels (founder, contact): open from any [data-open]; close on ×, Esc or backdrop click
   (function () {
-    var dlg = document.getElementById("profile");
     var reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-    function open() {
+    function open(dlg) {
       if (dlg.open) return;
+      dlg.classList.toggle("stacked", !!document.querySelector("dialog.profile[open]"));
       dlg.classList.remove("closing");
       dlg.showModal();
     }
-    function close() {
+    function close(dlg) {
       if (!dlg.open || dlg.classList.contains("closing")) return;
       if (reduced) { dlg.close(); return; }
       dlg.classList.add("closing");
-      dlg.addEventListener("animationend", function done() {
-        dlg.removeEventListener("animationend", done);
-        dlg.classList.remove("closing");
-        dlg.close();
-      });
     }
 
-    [].forEach.call(document.querySelectorAll("[data-open-profile]"), function (b) {
-      b.addEventListener("click", open);
+    // contact links keep their mailto href as the no-JS fallback
+    [].forEach.call(document.querySelectorAll("[data-open]"), function (b) {
+      b.addEventListener("click", function (e) {
+        e.preventDefault();
+        open(document.getElementById(b.getAttribute("data-open")));
+      });
     });
-    dlg.querySelector("[data-close-profile]").addEventListener("click", close);
-    dlg.addEventListener("cancel", function (e) { e.preventDefault(); close(); });
-    dlg.addEventListener("click", function (e) { if (e.target === dlg) close(); });
+    [].forEach.call(document.querySelectorAll("dialog.profile"), function (dlg) {
+      dlg.querySelector("[data-close]").addEventListener("click", function () { close(dlg); });
+      dlg.addEventListener("cancel", function (e) { e.preventDefault(); close(dlg); });
+      dlg.addEventListener("click", function (e) { if (e.target === dlg) close(dlg); });
+      dlg.addEventListener("animationend", function (e) {
+        if (e.target === dlg && e.animationName === "panelOut") dlg.close();
+      });
+      // Chrome may close on Esc without waiting for the slide-out; clear it either way
+      dlg.addEventListener("close", function () { dlg.classList.remove("closing"); });
+    });
 
-    // azyl.ai/#founder opens straight to the panel
-    if (location.hash === "#founder") open();
+    // azyl.ai/#founder and azyl.ai/#contact open straight to their panel
+    var target = { "#founder": "profile", "#contact": "contact" }[location.hash];
+    if (target) open(document.getElementById(target));
+
+    // scrolling down the page eases the founder panel's edge in; keep going and it opens
+    var profile = document.getElementById("profile");
+    var peek = document.querySelector(".peek");
+    var cue = document.querySelector(".scroll-cue");
+    var NEED = 260;           // wheel distance (px) from first nudge to open
+    var pull = 0, idle, quietUntil = 0, touchY = null;
+
+    function anyOpen() { return !!document.querySelector("dialog.profile[open]"); }
+    function show(p) {
+      pull = Math.max(0, Math.min(p, 1));
+      peek.style.transform = "translateX(" + (100 - pull * 100) + "%)";
+      cue.classList.toggle("lit", pull > 0);
+    }
+    function advance(px) {
+      if (anyOpen() || Date.now() < quietUntil) return;
+      clearTimeout(idle);
+      show(pull + px / NEED);
+      if (pull >= 1) { show(0); open(profile); return; }
+      idle = setTimeout(function () { show(0); }, 450);
+    }
+
+    // a trackpad's momentum outlasts the close; don't let it reopen the panel
+    [].forEach.call(document.querySelectorAll("dialog.profile"), function (dlg) {
+      dlg.addEventListener("close", function () { quietUntil = Date.now() + 900; });
+    });
+
+    window.addEventListener("wheel", function (e) {
+      advance(e.deltaMode === 1 ? e.deltaY * 16 : e.deltaY);
+    }, { passive: true });
+
+    window.addEventListener("keydown", function (e) {
+      if (e.target.closest("button, a")) return;
+      if (e.key === "ArrowDown") advance(NEED / 2);
+      else if (e.key === "PageDown" || e.key === " ") advance(NEED);
+    });
+
+    window.addEventListener("touchstart", function (e) {
+      touchY = anyOpen() ? null : e.touches[0].clientY;
+    }, { passive: true });
+    window.addEventListener("touchmove", function (e) {
+      if (touchY !== null) show((touchY - e.touches[0].clientY) / 140);
+    }, { passive: true });
+    window.addEventListener("touchend", function () {
+      if (touchY === null) return;
+      touchY = null;
+      if (pull >= 0.6) open(profile);
+      show(0);
+    });
+  })();
+
+  // contact form: posts to Formspree in the background and swaps in a thank-you
+  (function () {
+    var form = document.querySelector(".contact-form");
+    var done = document.querySelector(".contact-done");
+    var status = form.querySelector(".contact-status");
+    var btn = form.querySelector("button[type=submit]");
+
+    form.addEventListener("submit", function (e) {
+      e.preventDefault();
+      btn.disabled = true;
+      status.className = "contact-status";
+      status.textContent = "Sending…";
+
+      fetch(form.action, {
+        method: "POST",
+        body: new FormData(form),
+        headers: { Accept: "application/json" }
+      }).then(function (r) {
+        if (!r.ok) throw new Error(r.status);
+        form.reset();
+        form.hidden = true;
+        done.hidden = false;
+      }).catch(function () {
+        status.className = "contact-status error";
+        status.innerHTML = 'That didn’t go through. Please try again, or email ' +
+          '<a href="mailto:wally@azyl.ai">wally@azyl.ai</a>.';
+      }).then(function () {
+        btn.disabled = false;
+      });
+    });
   })();
 </script>
 </body>
