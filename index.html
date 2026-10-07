@@ -530,9 +530,12 @@
     padding-right: 38px;
     cursor: pointer;
     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'%3E%3Cpath d='M1 1l4 4 4-4' fill='none' stroke='%238C877F' stroke-width='1.2'/%3E%3C/svg%3E");
+    background-color: #24231F;
     background-repeat: no-repeat;
     background-position: right 14px center;
   }
+  /* some browsers draw the open list with the OS theme; keep it dark to match */
+  .field select option { background-color: #24231F; color: var(--ghost); }
   .hp { position: absolute; left: -9999px; width: 1px; height: 1px; opacity: 0; }
 
   .contact-actions { display: flex; align-items: center; gap: 18px; flex-wrap: wrap; margin-top: 4px; }
