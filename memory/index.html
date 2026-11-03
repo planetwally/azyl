@@ -39,6 +39,8 @@
   body { overflow-x: hidden; }
 
   .wrap { max-width: 1120px; margin: 0 auto; padding: 0 52px; }
+  /* the top bar and the footer run the full width, as on the home page */
+  .frame { padding: 0 52px; }
 
   /* ── NAV ── */
   nav {
@@ -54,14 +56,13 @@
     transition: color 0.3s;
   }
   .nav-domain:hover { color: var(--silver); }
-  .nav-domain b { font-weight: 300; color: var(--muted); }
   .nav-links { display: flex; align-items: center; gap: 36px; }
   .nav-cta {
     font-size: 10px; font-weight: 300; letter-spacing: 2px;
     color: var(--muted); text-decoration: none; text-transform: uppercase;
     transition: color 0.3s; padding-bottom: 1px; border-bottom: 1px solid transparent;
   }
-  .nav-cta:hover { color: var(--silver); border-bottom-color: var(--dim); }
+  .nav-cta:hover, .nav-cta[aria-current="page"] { color: var(--silver); border-bottom-color: var(--dim); }
   a:focus-visible { outline: 1px solid var(--blue); outline-offset: 6px; }
 
   /* ── HERO ── */
@@ -315,14 +316,13 @@
     .step .label { margin-top: 0; }
   }
   @media (max-width: 600px) {
-    .wrap { padding: 0 28px; }
+    .wrap, .frame { padding: 0 28px; }
     .wordmark-azyl { font-size: 40px; letter-spacing: 10px; }
     .wordmark-ai { font-size: 18px; }
     .tagline-text { font-size: 12px; letter-spacing: 0.5px; }
     .lede { font-size: 17px; }
     .nav-links { gap: 22px; }
     .nav-domain, .nav-cta { white-space: nowrap; }
-    .nav-links .nav-cta[href="#how"] { display: none; }
     .sample-head .label + .label { display: none; }
     .bench .long { display: none; }
     .bench .short { display: inline; }
@@ -339,18 +339,26 @@
     .closing-quote { font-size: 24px; }
     footer { flex-direction: column; justify-content: center; gap: 8px; height: auto; padding: 18px 0; }
   }
+  /* three nav links on the narrowest phones */
+  @media (max-width: 380px) {
+    .nav-links { gap: 16px; }
+    .nav-cta, .nav-domain { letter-spacing: 1.5px; }
+  }
 </style>
 </head>
 <body class="no-js">
-<div class="wrap">
-
+<div class="frame">
   <nav>
-    <a class="nav-domain" href="../">azyl.ai <b>/ memory</b></a>
+    <a class="nav-domain" href="../">azyl.ai</a>
     <div class="nav-links">
-      <a class="nav-cta" href="#how">How it works</a>
+      <a class="nav-cta" href="./" aria-current="page">Memory</a>
+      <a class="nav-cta" href="../#founder">Founder</a>
       <a class="nav-cta" href="../#contact">Get in touch</a>
     </div>
   </nav>
+</div>
+
+<div class="wrap">
 
   <header class="hero">
     <div class="logo-wrap">
@@ -640,11 +648,13 @@ From earlier conversations and records:
     </div>
   </section>
 
+</div>
+
+<div class="frame">
   <footer>
     <a href="../">AZYL.ai · Safe harbor for AI risk.</a>
     <span>AZYL.memory</span>
   </footer>
-
 </div>
 
 <script>
