@@ -577,10 +577,20 @@
     /* 16px keeps iOS from zooming into fields on focus */
     .field input, .field select, .field textarea { font-size: 16px; }
   }
+  /* on phones the harbor mark and the cue at the bottom open the founder panel */
+  @media (max-width: 480px) {
+    .nav-links .nav-cta[data-open="profile"] { display: none; }
+  }
   /* three nav links on the narrowest phones */
   @media (max-width: 380px) {
+    nav { gap: 16px; }
     .nav-links { gap: 16px; }
     .nav-cta, .nav-domain { letter-spacing: 1.5px; }
+  }
+  @media (max-width: 340px) {
+    nav { gap: 12px; }
+    .nav-links { gap: 12px; }
+    .nav-cta, .nav-domain { letter-spacing: 0.5px; }
   }
 </style>
 </head>
@@ -590,6 +600,7 @@
   <nav>
     <span class="nav-domain">azyl.ai</span>
     <div class="nav-links">
+      <a href="agents/" class="nav-cta">Agents</a>
       <a href="memory/" class="nav-cta">Memory</a>
       <button type="button" class="nav-cta" data-open="profile">Founder</button>
       <a href="mailto:wally@azyl.ai" class="nav-cta" data-open="contact">Get in touch</a>

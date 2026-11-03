@@ -354,18 +354,106 @@
     .nav-cta, .nav-domain { letter-spacing: 0.5px; }
     .nav-links { gap: 12px; }
   }
+  /* ── STICKY BAR: frosts over the page once you scroll, with a reading-progress line (as on /agents) ── */
+  .frame.top { position: sticky; top: 0; z-index: 50; transition: background 0.35s, backdrop-filter 0.35s; }
+  .frame.top.stuck { background: rgba(26,25,23,0.72); -webkit-backdrop-filter: saturate(150%) blur(16px); backdrop-filter: saturate(150%) blur(16px); }
+  .frame.top.stuck nav { border-bottom-color: transparent; }
+  .progress {
+    position: absolute; left: 0; bottom: 0; height: 1px; width: 100%;
+    background: linear-gradient(90deg, rgba(220,255,46,0.2), var(--blue));
+    transform-origin: 0 50%; transform: scaleX(var(--p, 0)); opacity: 0; transition: opacity 0.35s;
+  }
+  .frame.top.stuck .progress { opacity: 1; }
+
+  /* ── PRINCIPLES: rounded cards, lit by the pointer ── */
+  .cards { gap: 12px; }
+  .card {
+    position: relative; isolation: isolate; overflow: hidden; border-radius: 10px;
+    background: linear-gradient(180deg, rgba(255,255,255,0.025), rgba(255,255,255,0.008));
+    transition: border-color 0.4s, transform 0.4s cubic-bezier(0.16,1,0.3,1);
+  }
+  .card::before {
+    content: ""; position: absolute; inset: 0; z-index: -1; pointer-events: none;
+    background: radial-gradient(380px circle at var(--mx, 50%) var(--my, -20%), rgba(220,255,46,0.075), transparent 45%);
+    opacity: 0; transition: opacity 0.4s;
+  }
+  .card:hover { transform: translateY(-2px); }
+  .card:hover::before { opacity: 1; }
+
+  /* ── THE RECALL SAMPLE: tilted back, flattens as it arrives ── */
+  .tilt { perspective: 1600px; margin-top: 56px; }
+  .tilt .sample {
+    margin-top: 0; border-radius: 10px;
+    box-shadow: 0 40px 120px -60px rgba(220,255,46,0.16), 0 30px 80px -40px rgba(0,0,0,0.9);
+    transform: rotateX(calc(var(--t, 1) * 14deg)) scale(calc(1 - var(--t, 1) * 0.05));
+    transform-origin: 50% 0; will-change: transform;
+  }
+
+  /* ── STATS: rounded like the cards ── */
+  /* hairlines from a 1px gap over the rule colour: right in any number of columns */
+  .stats { gap: 1px; background: var(--rule); border: 1px solid var(--rule); border-radius: 10px; overflow: hidden; }
+  .stat { border: 0; background: var(--bg); }
+
+  /* ── OVERSIGHT TILES ── */
+  .otiles { margin-top: 40px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+  .otile { padding: 22px 22px 24px; border: 1px solid var(--rule); border-radius: 10px; background: rgba(255,255,255,0.012); transition: border-color 0.4s; }
+  .otile:hover { border-color: var(--dim); }
+  .otile .label { color: var(--muted); letter-spacing: 2px; }
+  .otile h3 { margin-top: 14px; font-size: 16px; font-weight: 400; color: var(--ghost); }
+  .otile p { margin-top: 8px; font-size: 13.5px; font-weight: 300; line-height: 1.6; color: var(--silver); }
+
+  /* ── WORKS WITH: a slow ticker ── */
+  .works { padding-top: 96px; }
+  .works > .label { text-align: center; }
+  .marquee {
+    margin-top: 22px; display: flex; overflow: hidden;
+    -webkit-mask-image: linear-gradient(90deg, transparent, #000 12%, #000 88%, transparent);
+            mask-image: linear-gradient(90deg, transparent, #000 12%, #000 88%, transparent);
+  }
+  .track { flex-shrink: 0; display: flex; gap: 10px; padding-right: 10px; list-style: none; animation: ticker 44s linear infinite; }
+  .track li { white-space: nowrap; font-size: 12.5px; font-weight: 300; color: var(--silver); padding: 8px 14px; border: 1px solid var(--rule); border-radius: 999px; }
+  .marquee:hover .track { animation-play-state: paused; }
+  @keyframes ticker { to { transform: translateX(-100%); } }
+
+  @media (prefers-reduced-motion: reduce) {
+    .tilt .sample { transform: none; }
+    .card, .card:hover { transform: none; }
+    .marquee { -webkit-mask-image: none; mask-image: none; }
+    .track { animation: none; flex-wrap: wrap; flex-shrink: 1; justify-content: center; }
+    .track.copy { display: none; }
+  }
+  @media (max-width: 900px) {
+    .otiles { grid-template-columns: repeat(2, 1fr); }
+  }
+  @media (max-width: 600px) {
+    .otiles { grid-template-columns: 1fr; }
+    .works { padding-top: 72px; }
+    /* tall on a phone, so a tilt would swing it past the margins */
+    .tilt .sample { transform: none; }
+  }
+  /* four links between tablet and desktop widths */
+  @media (min-width: 601px) and (max-width: 760px) {
+    nav { gap: 20px; }
+    .nav-links { gap: 22px; }
+  }
+  /* on phones the breadcrumb leads home, where the founder panel is */
+  @media (max-width: 480px) {
+    .nav-links .nav-cta[href$="#founder"] { display: none; }
+  }
 </style>
 </head>
 <body class="no-js">
-<div class="frame">
+<div class="frame top" id="top">
   <nav>
     <a class="nav-domain" href="../">azyl.ai <b>/ memory</b></a>
     <div class="nav-links">
+      <a class="nav-cta" href="../agents/">Agents</a>
       <a class="nav-cta" href="./" aria-current="page">Memory</a>
       <a class="nav-cta" href="../#founder">Founder</a>
       <a class="nav-cta" href="../#contact">Get in touch</a>
     </div>
   </nav>
+  <span class="progress" aria-hidden="true"></span>
 </div>
 
 <div class="wrap">
@@ -535,6 +623,7 @@
           </div>
         </div>
 
+        <div class="tilt">
         <div class="sample">
           <div class="sample-head">
             <span class="label">What the agent sees</span>
@@ -547,6 +636,7 @@ Known:
 From earlier conversations and records:
 - (<span class="id">e:2</span>) 2026-10-11 09:00 Wally: <span class="q">"Move the backups to 03:30, the GPU jobs need 02:00."</span>
 <span class="dimmed">[End of memory recall]</span></pre>
+        </div>
         </div>
         <p class="sample-note">Recalled text is wrapped and labelled as data, so a stored message can't pose as an
           instruction or a speaker. Every line carries an id the agent can cite, and every id leads back to the words.</p>
@@ -619,31 +709,25 @@ From earlier conversations and records:
         <p class="section-intro">AZYL.memory comes from the same place as the rest of AZYL.ai: AI that is useful
           to the business and still credible to the people who have to answer for it.</p>
 
-        <ul class="cred-list">
-          <li><span>Every change leaves a trace<small>Additions, merges, supersessions and reviews are written to an audit log you can read back.</small></span><span class="meta">Audit</span></li>
-          <li><span>Forget means forget<small>Erasing a record removes its text everywhere, and retracts the claims that rested only on it.</small></span><span class="meta">Erasure</span></li>
-          <li><span>Scopes keep things apart<small>Each agent, room and project reads only the scopes it is given; a client is bound to its own.</small></span><span class="meta">Isolation</span></li>
-          <li><span>A review queue when you want one<small>A stricter policy holds agent-reported and inferred claims for a person to approve.</small></span><span class="meta">Human in the loop</span></li>
-          <li><span>Nothing exposed by default<small>The server binds to localhost unless clients with tokens are configured.</small></span><span class="meta">Security</span></li>
-        </ul>
-
-        <span class="label tags-label">Works with</span>
-        <ul class="tags">
-          <li>MCP server · 7 tools</li>
-          <li>Claude Code hooks</li>
-          <li>Codex CLI</li>
-          <li>Cursor</li>
-          <li>Claude Desktop</li>
-          <li>HTTP API</li>
-          <li>CLI</li>
-          <li>Rust binary</li>
-          <li>Node library</li>
-          <li>LM Studio</li>
-          <li>Ollama</li>
-          <li>vLLM</li>
-          <li>llama.cpp</li>
-        </ul>
       </div>
+    </div>
+
+    <div class="otiles">
+      <div class="otile"><span class="label">Audit</span><h3>Every change leaves a trace</h3><p>Additions, merges, supersessions and reviews are written to an audit log you can read back.</p></div>
+      <div class="otile"><span class="label">Erasure</span><h3>Forget means forget</h3><p>Erasing a record removes its text everywhere, and retracts the claims that rested only on it.</p></div>
+      <div class="otile"><span class="label">Isolation</span><h3>Scopes keep things apart</h3><p>Each agent, room and project reads only the scopes it is given; a client is bound to its own.</p></div>
+      <div class="otile"><span class="label">Human in the loop</span><h3>A review queue when you want one</h3><p>A stricter policy holds agent-reported and inferred claims for a person to approve.</p></div>
+      <div class="otile"><span class="label">Provenance</span><h3>Every claim shows its source</h3><p>Each claim points back to the record it came from and who said it, so any answer can be traced to its words.</p></div>
+      <div class="otile"><span class="label">Security</span><h3>Nothing exposed by default</h3><p>The server binds to localhost unless clients with tokens are configured.</p></div>
+    </div>
+  </section>
+
+  <!-- ── WORKS WITH ── -->
+  <section id="works" class="works reveal">
+    <span class="label">Works with</span>
+    <div class="marquee">
+      <ul class="track"><li>MCP server · 7 tools</li><li>Claude Code hooks</li><li>Codex CLI</li><li>Cursor</li><li>Claude Desktop</li><li>HTTP API</li><li>CLI</li><li>Rust binary</li><li>Node library</li><li>LM Studio</li><li>Ollama</li><li>vLLM</li><li>llama.cpp</li></ul>
+      <ul class="track copy" aria-hidden="true"><li>MCP server · 7 tools</li><li>Claude Code hooks</li><li>Codex CLI</li><li>Cursor</li><li>Claude Desktop</li><li>HTTP API</li><li>CLI</li><li>Rust binary</li><li>Node library</li><li>LM Studio</li><li>Ollama</li><li>vLLM</li><li>llama.cpp</li></ul>
     </div>
   </section>
 
@@ -736,6 +820,40 @@ From earlier conversations and records:
         i = (i + 1) % lines.length;
       }
     })();
+  })();
+
+  // the top bar frosts over once you scroll; its line shows how far you've read;
+  // the recall sample flattens as it arrives
+  (function () {
+    var bar = document.getElementById("top");
+    var shot = document.querySelector(".tilt .sample");
+    var reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    var ticking = false;
+    function update() {
+      ticking = false;
+      var y = window.scrollY, max = document.documentElement.scrollHeight - innerHeight;
+      bar.classList.toggle("stuck", y > 8);
+      bar.style.setProperty("--p", max > 0 ? Math.min(1, y / max).toFixed(4) : 0);
+      if (shot && !reduced) {
+        var top = shot.parentNode.getBoundingClientRect().top;
+        var t = Math.max(0, Math.min(1, (top - innerHeight * 0.18) / (innerHeight * 0.62)));
+        shot.style.setProperty("--t", t.toFixed(3));
+      }
+    }
+    window.addEventListener("scroll", function () { if (!ticking) { ticking = true; requestAnimationFrame(update); } }, { passive: true });
+    window.addEventListener("resize", update);
+    update();
+  })();
+
+  // a soft light follows the pointer across the principle cards
+  (function () {
+    [].forEach.call(document.querySelectorAll(".card"), function (tile) {
+      tile.addEventListener("pointermove", function (e) {
+        var r = tile.getBoundingClientRect();
+        tile.style.setProperty("--mx", (e.clientX - r.left) + "px");
+        tile.style.setProperty("--my", (e.clientY - r.top) + "px");
+      });
+    });
   })();
 
   // sections ease in as they scroll into view
