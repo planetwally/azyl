@@ -4,7 +4,7 @@
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>AZYL.memory — Memory you can audit.</title>
-<meta name="description" content="AZYL.memory gives AI agents long-term memory with a chain of custody: every fact points back to the words it came from, and its trust is earned from the source. Local-first, one SQLite file."/>
+<meta name="description" content="AZYL.memory gives AI agents long-term memory with a chain of custody: every fact points back to the words it came from, and its trust is earned from the source. Local-first: one Rust binary, one SQLite file."/>
 <meta name="theme-color" content="#1A1917"/>
 <link rel="icon" href="../favicon.ico" sizes="any"/>
 <link rel="icon" href="../favicon.svg" type="image/svg+xml"/>
@@ -116,6 +116,16 @@
     transform: translateY(16px);
   }
   .lede em { font-style: normal; color: var(--ghost); }
+  .built {
+    margin-top: -12px;
+    font-family: var(--mono); font-size: 10px; letter-spacing: 2.5px; text-transform: uppercase; color: var(--label);
+    opacity: 0; animation: fadeUp 1.1s cubic-bezier(0.16,1,0.3,1) 2.6s forwards;
+    transform: translateY(16px);
+  }
+  .built b { font-weight: 400; color: var(--blue); }
+  .built i { font-style: normal; }
+  .built span { white-space: nowrap; }
+  @media (max-width: 600px) { .built b { display: block; margin-bottom: 6px; } .built i { display: none; } }
 
   .scroll-cue {
     display: flex; flex-direction: column; align-items: center; gap: 6px;
@@ -364,6 +374,7 @@
 
     <p class="lede">Long-term memory for AI agents, with a chain of custody. Every fact points back to
       the words it came from, and its trust is <em>earned from the source</em>, never claimed by the model.</p>
+    <p class="built"><b>Written in Rust</b><i> · </i><span>one 7&nbsp;MB binary · SQLite inside</span></p>
 
     <a class="scroll-cue" href="#why" aria-label="Read on">
       <span>Read on</span>
@@ -454,8 +465,8 @@
           <span class="card-num">05</span>
           <div>
             <h3>Local-first</h3>
-            <p>One SQLite file and zero dependencies. No vector database, no Python stack, no cloud account.
-              Your memory stays on your hardware.</p>
+            <p>One self-contained binary, written in Rust, and one SQLite file. No vector database, no Python
+              stack, no runtime to install, no cloud account. Your memory stays on your hardware.</p>
           </div>
         </div>
         <div class="card">
@@ -542,7 +553,7 @@ From earlier conversations and records:
           </div>
           <div class="stat">
             <div class="stat-num">21<small>ms</small></div>
-            <div class="stat-what">median recall with a local embedding model; 2.7 ms on keywords alone</div>
+            <div class="stat-what">median recall with a local embedding model; 2.3 ms on keywords alone</div>
             <span class="label">Recall p50</span>
           </div>
           <div class="stat">
@@ -551,8 +562,8 @@ From earlier conversations and records:
             <span class="label">TeamBench · 200 runs each</span>
           </div>
           <div class="stat">
-            <div class="stat-num">0<small>deps</small></div>
-            <div class="stat-what">one SQLite file on Node, nothing else to install or run</div>
+            <div class="stat-num">7<small>MB</small></div>
+            <div class="stat-what">one Rust binary with SQLite built in: CLI, MCP server and HTTP API, nothing else to install</div>
             <span class="label">Footprint</span>
           </div>
         </div>
@@ -573,7 +584,9 @@ From earlier conversations and records:
         <p class="fine">LongMemEval-S scores are retrieval (is an answer session among the top results?) on the
           423-question test split, hybrid keyword and vector search; 88.4% of questions have every answer session
           in the top five. They are not end-to-end answer accuracy. TeamBench runs 200 simulated scenarios per
-          guarantee; it checks what the design enforces, so it is a regression suite, not a contest. Consolidation
+          guarantee; it checks what the design enforces, so it is a regression suite, not a contest. Keyword-only
+          figures are from the Rust binary, which returns the same top ten as the JavaScript library on all 423
+          questions; hybrid figures are from the JavaScript library. Consolidation
           time was measured with a 27B model on one workstation GPU, over a full 327-record run.</p>
       </div>
     </div>
@@ -605,6 +618,7 @@ From earlier conversations and records:
           <li>Claude Desktop</li>
           <li>HTTP API</li>
           <li>CLI</li>
+          <li>Rust binary</li>
           <li>Node library</li>
           <li>LM Studio</li>
           <li>Ollama</li>
