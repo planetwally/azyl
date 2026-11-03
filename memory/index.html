@@ -272,7 +272,8 @@
 
   /* closing */
   .closing { padding: 128px 0 112px; text-align: center; }
-  .closing-quote { font-size: 30px; font-weight: 200; line-height: 1.35; color: var(--ghost); max-width: 720px; margin: 0 auto; }
+  /* .closing p would otherwise outrank it */
+  .closing .closing-quote { font-size: 30px; font-weight: 200; line-height: 1.35; color: var(--ghost); max-width: 720px; margin: 0 auto; }
   .closing-quote em { font-style: normal; color: var(--blue); }
   .closing p { margin: 18px auto 0; max-width: 560px; font-size: 15px; font-weight: 300; line-height: 1.7; color: var(--silver); }
   .actions { margin-top: 40px; display: flex; justify-content: center; gap: 12px; flex-wrap: wrap; }
@@ -339,7 +340,7 @@
     .stat-num { font-size: 34px; }
     .bench td.num, .bench th.num { padding-left: 12px; }
     .cred-list li { grid-template-columns: 1fr; gap: 6px; }
-    .closing-quote { font-size: 24px; }
+    .closing .closing-quote { font-size: 24px; }
     footer { flex-direction: column; justify-content: center; gap: 8px; height: auto; padding: 18px 0; }
   }
   /* three nav links on the narrowest phones */
