@@ -582,6 +582,9 @@
     .nav-cta { letter-spacing: 1px; }
     .nav-domain { letter-spacing: 1.5px; }
   }
+  .closing .reqs { margin-top: 22px; }
+  .closing .fine a { color: var(--silver); text-decoration: none; border-bottom: 1px solid var(--dim); }
+  .closing .fine a:hover { border-bottom-color: var(--silver); }
 </style>
 </head>
 <body class="no-js">
@@ -837,12 +840,14 @@
   <!-- ── CLOSING ── -->
   <section class="closing reveal">
     <p class="closing-quote">Your models, your hardware, <em>no terminal required.</em></p>
-    <p>AZYL.inference is in early access. Tell us what you run and on which GPU, and we&rsquo;ll talk about whether it
-      fits.</p>
+    <p>AZYL.inference is free for personal and other noncommercial use. Download it for Linux, with the Android app
+      alongside; for commercial use, get in touch.</p>
     <div class="actions">
-      <a class="action primary" href="../#contact">Request early access</a>
-      <a class="action" href="mailto:wally@azyl.ai?subject=AZYL.inference">wally@azyl.ai</a>
+      <a class="action primary" href="https://github.com/planetwally/azyl.inference/releases/latest">Download for Linux</a>
+      <a class="action" href="mailto:wally@azyl.ai?subject=AZYL.inference%20commercial%20license">Commercial license</a>
     </div>
+    <p class="fine shots-note reqs">Linux on x86_64, glibc 2.39 or newer (Fedora 40+, Ubuntu 24.04+, Debian 13+) · Android 11+ ·
+      <a href="https://github.com/planetwally/azyl.inference/blob/main/LICENSE.md">PolyForm Noncommercial 1.0.0</a></p>
     <p class="fine shots-note">The screenshot shows AZYL.inference running on a Radeon RX 7900 XTX with demo model names; the sketches above are illustrative.</p>
   </section>
 
