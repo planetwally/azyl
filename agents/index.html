@@ -573,6 +573,26 @@
   @media (max-width: 480px) {
     .nav-links .nav-cta[href$="#founder"] { display: none; }
   }
+  /* five tabs on a phone: a shorter contact label, tighter spacing */
+  .nav-cta .short { display: none; }
+  @media (max-width: 480px) {
+    .nav-domain { letter-spacing: 1.5px; }
+    .nav-links { gap: 14px; }
+    .nav-cta { letter-spacing: 1px; }
+    .nav-cta .long { display: none; }
+    .nav-cta .short { display: inline; }
+  }
+  @media (max-width: 340px) {
+    .nav-links { gap: 10px; }
+    .nav-cta { letter-spacing: 0.5px; }
+  }
+  nav { gap: 16px; }
+  .nav-domain, .nav-cta { white-space: nowrap; }
+  @media (min-width: 481px) and (max-width: 700px) {
+    .nav-links { gap: 16px; }
+    .nav-cta { letter-spacing: 1px; }
+    .nav-domain { letter-spacing: 1.5px; }
+  }
 </style>
 </head>
 <body class="no-js">
@@ -583,8 +603,9 @@
     <div class="nav-links">
       <a class="nav-cta" href="./" aria-current="page">Agents</a>
       <a class="nav-cta" href="../memory/">Memory</a>
+      <a class="nav-cta" href="../inference/">Inference</a>
       <a class="nav-cta" href="../#founder">Founder</a>
-      <a class="nav-cta" href="../#contact">Get in touch</a>
+      <a class="nav-cta" href="../#contact"><span class="long">Get in touch</span><span class="short">Contact</span></a>
     </div>
   </nav>
   <span class="progress" aria-hidden="true"></span>

@@ -592,6 +592,26 @@
     .nav-links { gap: 12px; }
     .nav-cta, .nav-domain { letter-spacing: 0.5px; }
   }
+  /* five tabs on a phone: a shorter contact label, tighter spacing */
+  .nav-cta .short { display: none; }
+  @media (max-width: 480px) {
+    .nav-domain { letter-spacing: 1.5px; }
+    .nav-links { gap: 14px; }
+    .nav-cta { letter-spacing: 1px; }
+    .nav-cta .long { display: none; }
+    .nav-cta .short { display: inline; }
+  }
+  @media (max-width: 340px) {
+    .nav-links { gap: 10px; }
+    .nav-cta { letter-spacing: 0.5px; }
+  }
+  nav { gap: 16px; }
+  .nav-domain, .nav-cta { white-space: nowrap; }
+  @media (min-width: 481px) and (max-width: 700px) {
+    .nav-links { gap: 16px; }
+    .nav-cta { letter-spacing: 1px; }
+    .nav-domain { letter-spacing: 1.5px; }
+  }
 </style>
 </head>
 <body>
@@ -602,8 +622,9 @@
     <div class="nav-links">
       <a href="agents/" class="nav-cta">Agents</a>
       <a href="memory/" class="nav-cta">Memory</a>
+      <a href="inference/" class="nav-cta">Inference</a>
       <button type="button" class="nav-cta" data-open="profile">Founder</button>
-      <a href="mailto:wally@azyl.ai" class="nav-cta" data-open="contact">Get in touch</a>
+      <a href="mailto:wally@azyl.ai" class="nav-cta" data-open="contact"><span class="long">Get in touch</span><span class="short">Contact</span></a>
     </div>
   </nav>
 
