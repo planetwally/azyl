@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>AZYL services</title>
+<meta name="description" content="AZYL.agents, AZYL.memory and AZYL.inference."/>
+<meta name="theme-color" content="#1A1917"/>
+<meta name="robots" content="noindex"/>
+<link rel="icon" href="../favicon.ico" sizes="any"/>
+<link rel="icon" href="../favicon.svg" type="image/svg+xml"/>
+<link rel="apple-touch-icon" href="../apple-touch-icon.png"/>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@300;400&family=Inter:wght@100;200;300;400&display=swap" rel="stylesheet"/>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --bg:      #1A1917;
+    --rule:    #282623;
+    --dim:     #4A4741;
+    --muted:   #6E6A63;
+    --label:   #8C877F;
+    --silver:  #D6D2CA;
+    --ghost:   #F3F1EC;
+    --blue:    #DCFF2E;
+    --mono: 'IBM Plex Mono', ui-monospace, 'SFMono-Regular', Menlo, Consolas, monospace;
+  }
+  html, body {
+    background: var(--bg); color: var(--ghost);
+    font-family: 'Inter', sans-serif; -webkit-font-smoothing: antialiased;
+  }
+  body { min-height: 100vh; display: flex; flex-direction: column; }
+  .frame { padding: 0 52px; }
+  nav {
+    height: 64px; display: flex; align-items: center; justify-content: space-between;
+    border-bottom: 1px solid var(--rule);
+  }
+  .nav-domain {
+    font-size: 10px; font-weight: 300; letter-spacing: 3px; color: var(--dim);
+    text-transform: uppercase; text-decoration: none; transition: color 0.3s;
+  }
+  .nav-domain:hover { color: var(--silver); }
+  .nav-domain b { font-weight: 300; color: var(--muted); }
+  a:focus-visible { outline: 1px solid var(--blue); outline-offset: 6px; }
+
+  main { flex: 1; max-width: 1120px; width: 100%; margin: 0 auto; padding: 96px 52px 80px; }
+  .label {
+    font-family: var(--mono); font-size: 10px; letter-spacing: 2.5px;
+    text-transform: uppercase; color: var(--label);
+  }
+  h1 { margin-top: 18px; font-size: 34px; font-weight: 200; line-height: 1.25; color: var(--ghost); }
+  h1 em { font-style: normal; color: var(--blue); }
+
+  .tools { margin-top: 48px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+  .tool {
+    display: flex; flex-direction: column; gap: 14px;
+    padding: 26px 24px 24px; border: 1px solid var(--rule); border-radius: 3px;
+    background: rgba(255,255,255,0.012); color: inherit; text-decoration: none;
+    transition: border-color 0.4s;
+  }
+  .tool:hover { border-color: var(--dim); }
+  .tool:hover .go { color: var(--blue); }
+  .name { font-size: 22px; font-weight: 100; letter-spacing: 3px; color: var(--ghost); }
+  .name span { font-weight: 200; letter-spacing: 0; color: var(--blue); }
+  .tag { font-family: var(--mono); font-size: 12px; color: var(--silver); }
+  .tool p { font-size: 13.5px; font-weight: 300; line-height: 1.65; color: var(--silver); flex: 1; }
+  .go {
+    font-family: var(--mono); font-size: 10px; letter-spacing: 2px; text-transform: uppercase;
+    color: var(--muted); transition: color 0.3s;
+  }
+
+  footer {
+    height: 52px; display: flex; align-items: center; justify-content: space-between;
+    border-top: 1px solid var(--rule);
+    font-size: 10px; font-weight: 300; letter-spacing: 2px; text-transform: uppercase; color: var(--dim);
+  }
+  footer a { color: var(--dim); text-decoration: none; transition: color 0.3s; }
+  footer a:hover { color: var(--silver); }
+
+  @media (max-width: 860px) { .tools { grid-template-columns: 1fr; } }
+  @media (max-width: 600px) {
+    .frame { padding: 0 16px; }
+    main { padding: 56px 16px 56px; }
+    h1 { font-size: 26px; }
+    footer span { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<div class="frame">
+  <nav>
+    <a class="nav-domain" href="../">azyl.ai <b>/ services</b></a>
+  </nav>
+</div>
+
+<main>
+  <span class="label">Services</span>
+  <h1>Three tools for running AI <em>you can account for.</em></h1>
+
+  <div class="tools">
+    <a class="tool" href="agents/">
+      <span class="name">AZYL<span>.agents</span></span>
+      <span class="tag">All your agents, one harbor.</span>
+      <p>Claude, Grok, Hermes and local models working as one team: shared rooms, a task board and an org chart. Every tool call is on the record, and every risky action waits for your approval.</p>
+      <span class="go">Open →</span>
+    </a>
+    <a class="tool" href="memory/">
+      <span class="name">AZYL<span>.memory</span></span>
+      <span class="tag">Memory you can audit.</span>
+      <p>Long-term memory for AI agents with a chain of custody: every fact points back to the words it came from, and its trust is earned from the source. One Rust binary, one SQLite file.</p>
+      <span class="go">Open →</span>
+    </a>
+    <a class="tool" href="inference/">
+      <span class="name">AZYL<span>.inference</span></span>
+      <span class="tag">Your models, on your hardware.</span>
+      <p>Local models on Ollama without the command line. It installs and supervises the engine, loads models when asked, unloads them when idle, and puts every setting on one page.</p>
+      <span class="go">Open →</span>
+    </a>
+  </div>
+</main>
+
+<div class="frame">
+  <footer>
+    <a href="../">AZYL.ai · Safe harbor for AI risk.</a>
+    <span>Services</span>
+  </footer>
+</div>
+
+</body>
+</html>
