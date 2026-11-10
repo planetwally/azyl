@@ -548,6 +548,16 @@
   .cred-list small a:hover { border-bottom-color: var(--silver); }
   .closing .shots-note { margin: 40px auto 0; font-size: 12px; color: var(--label); }
 
+  /* ── NEW IN 1.1: a screenshot beside what changed ── */
+  .duo { margin-top: 44px; display: grid; grid-template-columns: 1fr 1fr; gap: 28px; align-items: start; }
+  .duo .shot { border-radius: 8px; box-shadow: 0 30px 80px -50px rgba(0,0,0,0.9); }
+  .news { display: grid; gap: 1px; background: var(--rule); border: 1px solid var(--rule); border-radius: 10px; overflow: hidden; }
+  .news div { background: var(--bg); padding: 16px 18px 18px; }
+  .news dt { font-size: 14px; font-weight: 400; color: var(--ghost); }
+  .news dt .label { display: inline; margin-left: 8px; color: var(--muted); letter-spacing: 1.5px; }
+  .news dd { margin-top: 6px; font-size: 13px; font-weight: 300; line-height: 1.6; color: var(--silver); }
+  @media (max-width: 900px) { .duo { grid-template-columns: 1fr; } }
+
 
   @media (max-width: 600px) {
     .nav-links .nav-cta[aria-current="page"] { display: none; }
@@ -627,7 +637,7 @@
     <p class="lede">Run local models on your own GPU without the command line. AZYL.inference installs and runs
       Ollama for you, loads models when they&rsquo;re asked for and lets them go when they&rsquo;re not, and puts every
       setting that matters on one page, <em>with a friendly face on whatever is running.</em></p>
-    <p class="built"><b>Written in Rust</b><i> · </i><span>one 6&nbsp;MB binary · Ollama underneath · nothing leaves your machine</span></p>
+    <p class="built"><b>Written in Rust</b><i> · </i><span>one 7&nbsp;MB binary · Ollama underneath · nothing leaves your machine</span></p>
 
     <a class="scroll-cue" href="#tour" aria-label="Read on">
       <span>Read on</span>
@@ -755,7 +765,7 @@
           <span class="label">05 · Bring your models</span>
           <h3>From LM Studio in a minute</h3>
           <p>It finds the GGUFs LM Studio downloaded, with their vision projectors, and imports them, keeping the sampling
-            each file recommends. Or pull from the Ollama library and Hugging Face.</p>
+            each file recommends. Or pull from the Ollama library, or search Hugging Face and see what fits first.</p>
         </div>
       </article>
 
@@ -797,6 +807,37 @@
     </div>
   </section>
 
+  <!-- ── NEW IN 1.1 ── -->
+  <section id="new" class="reveal">
+    <div class="section-head">
+      <span class="label">New in 1.1</span>
+      <div class="body">
+        <h2>Find a model that fits. <em>Run one bigger than your GPU.</em></h2>
+        <p class="section-intro">Search Hugging Face from the app and see, before you download, whether each
+          quantization fits on your GPU for the context window and parallel requests you run. Then let a second engine
+          take the one model that never would.</p>
+      </div>
+    </div>
+
+    <div class="duo">
+      <figure class="shot">
+        <a href="img/hugging-face.webp" target="_blank" rel="noopener">
+          <img src="img/hugging-face.webp" width="1440" height="1320" loading="lazy"
+            alt="The Add a model dialog on its Hugging Face tab, after a search for qwen3 32b. The repository unsloth/Qwen3-32B-GGUF lists 26 quantizations; Q3_K_M, Q3_K_XL and IQ4_XS fit on the GPU, with IQ4_XS marked best fit, while IQ4_NL and Q4_0 would run 99% on the GPU. A note explains the estimate: about 23.1 GB for weights and context cache against the GPU&rsquo;s 24 GB, for a 64K-token context. A button downloads 16.5 GB."/>
+        </a>
+        <figcaption><span>Hugging Face, checked against your GPU</span><span>Best fit marked</span></figcaption>
+      </figure>
+      <dl class="news">
+        <div><dt>Hugging Face search</dt><dd>Lists every quantization of a GGUF repository with its size, says whether it fits wholly on your GPU, partly or not at all, and marks the best fit. Only your search words go to huggingface.co.</dd></div>
+        <div><dt>Avalon<span class="label">a second engine</span></dt><dd>Runs Qwen3.8-Flash-Next, a 107B mixture-of-experts model, with its experts in RAM and the busiest on the GPU. It shows up with your Ollama models, loads in about 20 seconds, and takes the GPU in turns with Ollama.</dd></div>
+        <div><dt>One address for every model</dt><dd>An Ollama- and OpenAI-compatible endpoint that sends each request to the engine that runs its model, and hands the GPU over on the way when it needs to.</dd></div>
+        <div><dt>Embeddings on the CPU</dt><dd>A second, GPU-less Ollama keeps an embedding model loaded for apps like AZYL.memory, so a search never waits for a model swap. About 8&nbsp;ms per query.</dd></div>
+        <div><dt>Speculative decoding</dt><dd>Models with a built-in MTP layer get a draft-length setting: on a 27B model, about 36% faster prose and 66% faster code on the same card.</dd></div>
+        <div><dt>Vulkan or ROCm</dt><dd>Pick the GPU backend Ollama uses, from the same engine settings page.</dd></div>
+      </dl>
+    </div>
+  </section>
+
   <!-- ── UNDER THE HOOD ── -->
   <section id="trust" class="reveal">
     <div class="section-head">
@@ -809,7 +850,7 @@
     </div>
 
     <div class="otiles">
-      <div class="otile"><span class="label">Binary</span><h3>One 6 MB file</h3><p>An async Rust server with the web app built in. Installed as a systemd user service, opened as its own window.</p></div>
+      <div class="otile"><span class="label">Binary</span><h3>One 7 MB file</h3><p>An async Rust server with the web app built in. Installed as a systemd user service, opened as its own window.</p></div>
       <div class="otile"><span class="label">Supervision</span><h3>It owns the engine</h3><p>Ollama runs in its own process group, restarts after a crash, and stops with the app, even if the app is killed outright.</p></div>
       <div class="otile"><span class="label">Installs</span><h3>Verified downloads</h3><p>Ollama comes from its GitHub release, is checked against the published SHA-256, and is swapped in only once it&rsquo;s whole.</p></div>
       <div class="otile"><span class="label">Privacy</span><h3>Local by default</h3><p>The app and the engine listen on this computer only, and Ollama&rsquo;s cloud features are off. Your prompts stay on your GPU.</p></div>
@@ -826,13 +867,13 @@
     <span class="label">Works with</span>
     <div class="marquee">
       <ul class="track">
-        <li>Ollama</li><li>LM Studio models</li><li>GGUF files</li><li>Hugging Face</li><li>Ollama library</li>
-        <li>AMD ROCm</li><li>NVIDIA CUDA</li><li>OpenAI-compatible apps</li><li>AZYL.agents</li><li>AZYL.memory</li>
+        <li>Ollama</li><li>Avalon · 107B MoE</li><li>LM Studio models</li><li>GGUF files</li><li>Hugging Face</li><li>Ollama library</li>
+        <li>AMD ROCm</li><li>Vulkan</li><li>NVIDIA CUDA</li><li>OpenAI-compatible apps</li><li>AZYL.agents</li><li>AZYL.memory</li>
         <li>Tailscale</li><li>Android app</li><li>Linux · systemd</li><li>Qwen · Gemma · Llama</li>
       </ul>
       <ul class="track copy" aria-hidden="true">
-        <li>Ollama</li><li>LM Studio models</li><li>GGUF files</li><li>Hugging Face</li><li>Ollama library</li>
-        <li>AMD ROCm</li><li>NVIDIA CUDA</li><li>OpenAI-compatible apps</li><li>AZYL.agents</li><li>AZYL.memory</li>
+        <li>Ollama</li><li>Avalon · 107B MoE</li><li>LM Studio models</li><li>GGUF files</li><li>Hugging Face</li><li>Ollama library</li>
+        <li>AMD ROCm</li><li>Vulkan</li><li>NVIDIA CUDA</li><li>OpenAI-compatible apps</li><li>AZYL.agents</li><li>AZYL.memory</li>
         <li>Tailscale</li><li>Android app</li><li>Linux · systemd</li><li>Qwen · Gemma · Llama</li>
       </ul>
     </div>
@@ -849,7 +890,8 @@
     </div>
     <p class="fine shots-note reqs">Linux on x86_64, glibc 2.39 or newer (Fedora 40+, Ubuntu 24.04+, Debian 13+) · Android 11+ ·
       <a href="https://github.com/planetwally/azyl.inference/blob/main/LICENSE.md">PolyForm Noncommercial 1.0.0</a></p>
-    <p class="fine shots-note">The screenshot shows AZYL.inference running on a Radeon RX 7900 XTX with demo model names; the sketches above are illustrative.</p>
+    <p class="fine shots-note">The download is version 1.0.0; the features under &ldquo;New in 1.1&rdquo; come with the next release.</p>
+    <p class="fine shots-note">The screenshots show AZYL.inference running on a Radeon RX 7900 XTX; the status page uses demo model names, and the sketches above are illustrative.</p>
   </section>
 
 </div>

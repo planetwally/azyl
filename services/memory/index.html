@@ -390,6 +390,30 @@
     transform-origin: 50% 0; will-change: transform;
   }
 
+  /* ── SCREENSHOTS ── */
+  .shot { margin: 0; border: 1px solid var(--rule); border-radius: 6px; overflow: hidden; background: var(--panel); }
+  .shot a { display: block; }
+  .shot img { display: block; width: 100%; height: auto; }
+  .shot figcaption {
+    display: flex; justify-content: space-between; gap: 16px; padding: 11px 16px; border-top: 1px solid var(--rule);
+    font-family: var(--mono); font-size: 10px; letter-spacing: 1.5px; text-transform: uppercase; color: var(--label);
+  }
+  .shot figcaption span:last-child { color: var(--blue); white-space: nowrap; }
+  .tilt.hero-tilt { perspective: 1800px; margin-top: 8px; }
+  .tilt .hero-shot {
+    box-shadow: 0 40px 120px -60px rgba(220,255,46,0.18), 0 30px 80px -40px rgba(0,0,0,0.9);
+    transform: rotateX(calc(var(--t, 1) * 14deg)) scale(calc(1 - var(--t, 1) * 0.06));
+    transform-origin: 50% 0; will-change: transform;
+  }
+  .shot-grid { margin-top: 44px; display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .pages { margin-top: 40px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: var(--rule); border: 1px solid var(--rule); border-radius: 10px; overflow: hidden; }
+  .pages div { background: var(--bg); padding: 16px 18px 18px; }
+  .pages dt { font-size: 14px; font-weight: 400; color: var(--ghost); }
+  .pages dd { margin-top: 6px; font-size: 13px; font-weight: 300; line-height: 1.55; color: var(--silver); }
+  .closing .shots-note { margin: 40px auto 0; font-size: 12px; color: var(--label); }
+  .section-intro code { font-family: var(--mono); font-size: 13px; color: var(--ghost); }
+  @media (max-width: 600px) { .built span { white-space: normal; text-wrap: balance; display: inline-block; max-width: 100%; } }
+
   /* ── STATS: rounded like the cards ── */
   /* hairlines from a 1px gap over the rule colour: right in any number of columns */
   .stats { gap: 1px; background: var(--rule); border: 1px solid var(--rule); border-radius: 10px; overflow: hidden; }
@@ -417,17 +441,19 @@
   @keyframes ticker { to { transform: translateX(-100%); } }
 
   @media (prefers-reduced-motion: reduce) {
-    .tilt .sample { transform: none; }
+    .tilt .sample, .tilt .hero-shot { transform: none; }
     .card, .card:hover { transform: none; }
     .marquee { -webkit-mask-image: none; mask-image: none; }
     .track { animation: none; flex-wrap: wrap; flex-shrink: 1; justify-content: center; }
     .track.copy { display: none; }
   }
   @media (max-width: 900px) {
-    .otiles { grid-template-columns: repeat(2, 1fr); }
+    .otiles, .pages { grid-template-columns: repeat(2, 1fr); }
   }
   @media (max-width: 600px) {
-    .otiles { grid-template-columns: 1fr; }
+    .otiles, .pages { grid-template-columns: 1fr; }
+    .shot-grid { grid-template-columns: 1fr; }
+    .shot figcaption { flex-direction: column; gap: 4px; }
     .works { padding-top: 72px; }
     /* tall on a phone, so a tilt would swing it past the margins */
     .tilt .sample { transform: none; }
@@ -502,13 +528,23 @@
 
     <p class="lede">Long-term memory for AI agents, with a chain of custody. Every fact points back to
       the words it came from, and its trust is <em>earned from the source</em>, never claimed by the model.</p>
-    <p class="built"><b>Written in Rust</b><i> · </i><span>one 7&nbsp;MB binary · SQLite inside</span></p>
+    <p class="built"><b>Written in Rust</b><i> · </i><span>one 7&nbsp;MB binary · SQLite inside · a browser built in</span></p>
 
     <a class="scroll-cue" href="#why" aria-label="Read on">
       <span>Read on</span>
       <svg width="12" height="7" viewBox="0 0 12 7" aria-hidden="true"><path d="M1 1l5 5 5-5" fill="none" stroke="currentColor" stroke-width="1.1" stroke-linecap="round"/></svg>
     </a>
   </header>
+
+  <div class="tilt hero-tilt">
+  <figure class="shot hero-shot">
+    <a href="img/graph.webp" target="_blank" rel="noopener">
+      <img src="img/graph.webp" width="2880" height="1800"
+        alt="The Graph page of the AZYL.memory browser: 23 entities and 58 links drawn as a network. Wally, the person, sits at the centre, linked to the agents Atlas, Vesper, Nova and Quill, the servers build-01, staging-02 and db-01, the customers Kestrel Logistics and Orchard Health, and topics such as backup, orders, invoice export, migration 2.4 and release 2.4. The sidebar lists the browser&rsquo;s pages and two scopes, team and room:release-2.4."/>
+    </a>
+    <figcaption><span>The knowledge graph: who and what turns up together</span><span>Click an entity for its facts</span></figcaption>
+  </figure>
+  </div>
 
   <!-- ── WHY ── -->
   <section id="why" class="reveal">
@@ -666,6 +702,64 @@ From earlier conversations and records:
     </div>
   </section>
 
+  <!-- ── THE BROWSER ── -->
+  <section id="browser" class="reveal">
+    <div class="section-head">
+      <span class="label">The browser</span>
+      <div class="body">
+        <h2>Open the memory. <em>See where every fact came from.</em></h2>
+        <p class="section-intro"><code>azyl-memory ui</code> opens what your agents know in a browser, on this machine
+          only. Every claim shows its trust tier and the quote it rests on, highlighted in the original record, with
+          the values it replaced and anything it contradicts. Ctrl+K searches claims and records from anywhere.</p>
+        <p class="section-intro">AZYL.agents has the same browser built in, behind its own sign-in and on the memory
+          its agents use, so it works over your tailnet and in the Android app with nothing else to run.</p>
+      </div>
+    </div>
+
+    <div class="shot-grid">
+      <figure class="shot">
+        <a href="img/claim.webp" target="_blank" rel="noopener">
+          <img src="img/claim.webp" width="2880" height="1800" loading="lazy"
+            alt="A claim open in the AZYL.memory browser: &ldquo;The nightly backup on db-01 runs at 03:30.&rdquo; It is marked user-stated because its quote was found word for word in Wally&rsquo;s message &ldquo;Move the backups to 03:30, the GPU jobs need 02:00 now&rdquo;, with 03:30 highlighted. Below, the value over time: 02:00 from October 15 to 28, then 03:30 until now, followed by the scope, validity and audit trail, and buttons to pin it to the core block or retract it."/>
+        </a>
+        <figcaption><span>A claim, its source and its history</span><span>Quote checked</span></figcaption>
+      </figure>
+      <figure class="shot">
+        <a href="img/overview.webp" target="_blank" rel="noopener">
+          <img src="img/overview.webp" width="2880" height="1800" loading="lazy"
+            alt="The Overview page of the AZYL.memory browser, headed &ldquo;What your agents remember, and where it came from.&rdquo; Tiles show 19 known claims, 37 records, 2 waiting for review, 23 entities and 37 records to consolidate. A trust bar splits the claims into user-stated, tool-checked, agent-reported and inferred, above a 30-day activity chart, the most-mentioned entities and a feed of recent changes."/>
+        </a>
+        <figcaption><span>Overview: what is in the file</span><span>By trust tier</span></figcaption>
+      </figure>
+      <figure class="shot">
+        <a href="img/review.webp" target="_blank" rel="noopener">
+          <img src="img/review.webp" width="2880" height="1800" loading="lazy"
+            alt="The Review page: &ldquo;The model proposes. You decide.&rdquo; A conflict about build-01 disk use sets a tool-checked claim by Vesper, 91 percent used, against a pending agent-reported claim by Nova, about 85 percent used, each with a link to its evidence and a Keep this one button."/>
+        </a>
+        <figcaption><span>Review: a guess against a measurement</span><span>You decide</span></figcaption>
+      </figure>
+      <figure class="shot">
+        <a href="img/graph-entity.webp" target="_blank" rel="noopener">
+          <img src="img/graph-entity.webp" width="2880" height="1800" loading="lazy"
+            alt="The Graph page with build-01 selected: its links to staging-02, Nova, Atlas and Vesper are lit and the rest of the graph is dimmed. A card shows build-01 as a thing with 10 mentions and its current facts, 91 percent and 88 percent of /srv used, with buttons to open it or list its records."/>
+        </a>
+        <figcaption><span>One entity, its links and its facts</span><span>build-01</span></figcaption>
+      </figure>
+    </div>
+
+    <dl class="pages">
+      <div><dt>Overview</dt><dd>Claims by trust tier, records per day, the most-mentioned entities, and what is waiting for you.</dd></div>
+      <div><dt>Ask</dt><dd>Runs the recall an agent gets each turn and shows the block it would receive. Add a date to ask as of then.</dd></div>
+      <div><dt>Claims</dt><dd>Filter by words, status, kind and trust. Pin a claim to the core block, or retract it.</dd></div>
+      <div><dt>Evidence</dt><dd>The verbatim records, the claims that rest on each, its neighbours in the session, and forget.</dd></div>
+      <div><dt>Review</dt><dd>Pending claims to accept or reject, and contradicting pairs side by side.</dd></div>
+      <div><dt>Graph</dt><dd>Entities sized by mentions and linked when they turn up together. Drag, zoom, click for a profile.</dd></div>
+      <div><dt>Time travel</dt><dd>What was true on a given date, and what has changed since.</dd></div>
+      <div><dt>Consolidation</dt><dd>What is waiting, why a pass isn&rsquo;t running, what the last one did, and Run now.</dd></div>
+      <div><dt>Backups</dt><dd>Daily snapshots, Snapshot now, and a portable export any memory file can read back.</dd></div>
+    </dl>
+  </section>
+
   <!-- ── MEASURED ── -->
   <section id="measured" class="reveal">
     <div class="section-head">
@@ -693,7 +787,7 @@ From earlier conversations and records:
           </div>
           <div class="stat">
             <div class="stat-num">7<small>MB</small></div>
-            <div class="stat-what">one Rust binary with SQLite built in: CLI, MCP server and HTTP API, nothing else to install</div>
+            <div class="stat-what">one Rust binary with SQLite built in: browser, CLI, MCP server and HTTP API, nothing else to install</div>
             <span class="label">Footprint</span>
           </div>
         </div>
@@ -740,7 +834,10 @@ From earlier conversations and records:
       <div class="otile"><span class="label">Isolation</span><h3>Scopes keep things apart</h3><p>Each agent, room and project reads only the scopes it is given; a client is bound to its own.</p></div>
       <div class="otile"><span class="label">Human in the loop</span><h3>A review queue when you want one</h3><p>A stricter policy holds agent-reported and inferred claims for a person to approve.</p></div>
       <div class="otile"><span class="label">Provenance</span><h3>Every claim shows its source</h3><p>Each claim points back to the record it came from and who said it, so any answer can be traced to its words.</p></div>
-      <div class="otile"><span class="label">Security</span><h3>Nothing exposed by default</h3><p>The server binds to localhost unless clients with tokens are configured.</p></div>
+      <div class="otile"><span class="label">Security</span><h3>Nothing exposed by default</h3><p>The server binds to localhost unless clients with tokens are configured, answers only to this machine&rsquo;s own name, and refuses writes sent from other websites.</p></div>
+      <div class="otile"><span class="label">Backups</span><h3>Snapshots while agents write</h3><p>A whole, consistent copy of the memory file every day (or hour, or week), safe to take while agents are writing.</p></div>
+      <div class="otile"><span class="label">Portability</span><h3>Your memory, in a file you can take</h3><p>Export every record and claim, with its trust, validity and evidence, as JSON Lines that any memory file reads back.</p></div>
+      <div class="otile"><span class="label">Visibility</span><h3>Nothing hidden from you</h3><p>The browser shows every claim, every record and every change, and Ask shows exactly what an agent would be handed.</p></div>
     </div>
   </section>
 
@@ -748,8 +845,8 @@ From earlier conversations and records:
   <section id="works" class="works reveal">
     <span class="label">Works with</span>
     <div class="marquee">
-      <ul class="track"><li>MCP server · 7 tools</li><li>Claude Code hooks</li><li>Codex CLI</li><li>Cursor</li><li>Claude Desktop</li><li>HTTP API</li><li>CLI</li><li>Rust binary</li><li>Node library</li><li>LM Studio</li><li>Ollama</li><li>vLLM</li><li>llama.cpp</li></ul>
-      <ul class="track copy" aria-hidden="true"><li>MCP server · 7 tools</li><li>Claude Code hooks</li><li>Codex CLI</li><li>Cursor</li><li>Claude Desktop</li><li>HTTP API</li><li>CLI</li><li>Rust binary</li><li>Node library</li><li>LM Studio</li><li>Ollama</li><li>vLLM</li><li>llama.cpp</li></ul>
+      <ul class="track"><li>Browser</li><li>MCP server · 7 tools</li><li>Claude Code hooks</li><li>Codex CLI</li><li>Cursor</li><li>Claude Desktop</li><li>Hermes Agent</li><li>AZYL.agents</li><li>AZYL.inference</li><li>HTTP API</li><li>CLI</li><li>Rust binary</li><li>Node library</li><li>LM Studio</li><li>Ollama</li><li>vLLM</li><li>llama.cpp</li></ul>
+      <ul class="track copy" aria-hidden="true"><li>Browser</li><li>MCP server · 7 tools</li><li>Claude Code hooks</li><li>Codex CLI</li><li>Cursor</li><li>Claude Desktop</li><li>Hermes Agent</li><li>AZYL.agents</li><li>AZYL.inference</li><li>HTTP API</li><li>CLI</li><li>Rust binary</li><li>Node library</li><li>LM Studio</li><li>Ollama</li><li>vLLM</li><li>llama.cpp</li></ul>
     </div>
   </section>
 
@@ -762,6 +859,7 @@ From earlier conversations and records:
       <a class="action primary" href="../../#contact">Request early access</a>
       <a class="action" href="mailto:wally@azyl.ai?subject=AZYL.memory">wally@azyl.ai</a>
     </div>
+    <p class="fine shots-note">The screenshots show AZYL.memory with a demo team; the agents, servers, customers and data in them are illustrative.</p>
   </section>
 
 </div>
@@ -848,7 +946,7 @@ From earlier conversations and records:
   // the recall sample flattens as it arrives
   (function () {
     var bar = document.getElementById("top");
-    var shot = document.querySelector(".tilt .sample");
+    var shots = [].slice.call(document.querySelectorAll(".tilt .sample, .tilt .hero-shot"));
     var reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     var ticking = false;
     function update() {
@@ -856,11 +954,11 @@ From earlier conversations and records:
       var y = window.scrollY, max = document.documentElement.scrollHeight - innerHeight;
       bar.classList.toggle("stuck", y > 8);
       bar.style.setProperty("--p", max > 0 ? Math.min(1, y / max).toFixed(4) : 0);
-      if (shot && !reduced) {
+      if (!reduced) shots.forEach(function (shot) {
         var top = shot.parentNode.getBoundingClientRect().top;
         var t = Math.max(0, Math.min(1, (top - innerHeight * 0.18) / (innerHeight * 0.62)));
         shot.style.setProperty("--t", t.toFixed(3));
-      }
+      });
     }
     window.addEventListener("scroll", function () { if (!ticking) { ticking = true; requestAnimationFrame(update); } }, { passive: true });
     window.addEventListener("resize", update);

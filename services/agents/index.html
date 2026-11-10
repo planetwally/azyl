@@ -559,6 +559,16 @@
   .cred-list small a:hover { border-bottom-color: var(--silver); }
   .closing .shots-note { margin: 40px auto 0; font-size: 12px; color: var(--label); }
 
+  /* ── AT A GLANCE: screenshots and what's new ── */
+  .shot-grid { margin-top: 44px; display: grid; grid-template-columns: 2fr 1fr; gap: 12px; align-items: start; }
+  .shot-grid .shot { border-radius: 6px; }
+  .pages { margin-top: 40px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: var(--rule); border: 1px solid var(--rule); border-radius: 10px; overflow: hidden; }
+  .pages div { background: var(--bg); padding: 16px 18px 18px; }
+  .pages dt { font-size: 14px; font-weight: 400; color: var(--ghost); }
+  .pages dd { margin-top: 6px; font-size: 13px; font-weight: 300; line-height: 1.55; color: var(--silver); }
+  @media (max-width: 900px) { .pages { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 600px) { .pages, .shot-grid { grid-template-columns: 1fr; } }
+
 
   @media (max-width: 600px) {
     .nav-links .nav-cta[aria-current="page"] { display: none; }
@@ -637,7 +647,7 @@
 
     <p class="lede">Run Claude, Grok, Hermes and your local models as one team: in shared rooms, on one task
       board, under one org chart. Every tool call is on the record, and <em>every risky action waits for you.</em></p>
-    <p class="built"><b>Written in Rust</b><i> · </i><span>one self-hosted 15&nbsp;MB binary · your keys stay with you</span></p>
+    <p class="built"><b>Written in Rust</b><i> · </i><span>one self-hosted 18&nbsp;MB binary · your keys stay with you</span></p>
 
     <a class="scroll-cue" href="#tour" aria-label="Read on">
       <span>Read on</span>
@@ -647,11 +657,11 @@
 
   <div class="tilt">
   <figure class="shot hero-shot">
-    <a href="img/room-evidence.webp" target="_blank" rel="noopener">
-      <img src="img/room-evidence.webp" width="2880" height="1800"
-        alt="An AZYL.agents room called Release 2.4 readiness. Vesper, a Hermes agent, checks a server with two read-only terminal commands and reports the disk at 91 percent; the result is filed as a tool-checked fact. Nova, a Grok agent, raises two risks and opens a task. The room state panel lists the open items, the facts with their sources, and the go / no-go meeting."/>
+    <a href="img/room.webp" target="_blank" rel="noopener">
+      <img src="img/room.webp" width="2880" height="1800"
+        alt="An AZYL.agents room called Release 2.4 readiness. Wally asks whether 2.4 can ship tonight. Vesper reports build-01&rsquo;s disk at 91 percent, files it as a fact and opens a ticket to delete old releases for Wally&rsquo;s go-ahead. Nova raises two risks and gives Vesper a task. Each reply shows its model, tokens, writing speed and a memory chip for what long-term memory recalled. The room state panel lists the go / no go meeting with its goals, the open task and a question for Wally, and the fact with its source."/>
     </a>
-    <figcaption><span>A room: four agents from three vendors on one release</span><span>Tool calls, facts and tasks on the record</span></figcaption>
+    <figcaption><span>A room: four agents on one release</span><span>Facts, tasks, meetings and memory on the record</span></figcaption>
   </figure>
   </div>
 
@@ -800,11 +810,53 @@
         <div class="tile-text">
           <span class="label">07 · Memory</span>
           <h3>A team that remembers</h3>
-          <p>With <a href="../memory/">AZYL.memory</a>, agents recall what the team learned, and every item says whether
-            a person stated it, a tool measured it or an agent claimed it.</p>
+          <p>With <a href="../memory/">AZYL.memory</a> built in, agents recall what the team learned, and every item says
+            whether a person stated it, a tool measured it or an agent claimed it. A chip on each reply shows what it was handed.</p>
         </div>
       </article>
     </div>
+  </section>
+
+  <!-- ── AT A GLANCE ── -->
+  <section id="glance" class="reveal">
+    <div class="section-head">
+      <span class="label">At a glance</span>
+      <div class="body">
+        <h2>Everything that needs you, <em>on one page.</em></h2>
+        <p class="section-intro">Home shows what is waiting for you, who is working, today&rsquo;s meetings, the work in
+          progress and today&rsquo;s tokens. The Inbox gathers every pending approval, ticket, open question and memory
+          note in one place, with a count on the tab, the sidebar and your phone.</p>
+      </div>
+    </div>
+
+    <div class="shot-grid">
+      <figure class="shot">
+        <a href="img/home.webp" target="_blank" rel="noopener">
+          <img src="img/home.webp" width="2880" height="1800" loading="lazy"
+            alt="The AZYL.agents Home page: &ldquo;Good afternoon, Wally. A few things are waiting.&rdquo; Tiles show one thing that needs you, nobody working, four of four agents online, one open ticket and 9.1K tokens today. Below, Atlas&rsquo;s question &ldquo;OK to freeze merges from 21:30?&rdquo; with buttons to answer in the room, mark it done or move it to the board; recent conversations; today&rsquo;s 2.4 go / no go meeting; the board; and the four agents."/>
+        </a>
+        <figcaption><span>Home: today at a glance</span><span>What needs you comes first</span></figcaption>
+      </figure>
+      <figure class="shot">
+        <a href="img/recall.webp" target="_blank" rel="noopener">
+          <img src="img/recall.webp" width="1120" height="1720" loading="lazy"
+            alt="The memory dialog for one of Vesper&rsquo;s replies: 19 items recalled in 1.2 milliseconds for the question &ldquo;When does the db-01 backup run now, and did last night&rsquo;s finish?&rdquo; Known claims are listed with their trust tier, such as user-stated &ldquo;The nightly backup on db-01 runs at 03:30&rdquo; and tool-checked &ldquo;build-01 /srv is 91% used&rdquo;, followed by the tool output records they came from."/>
+        </a>
+        <figcaption><span>What memory handed the agent</span><span>Per reply</span></figcaption>
+      </figure>
+    </div>
+
+    <dl class="pages">
+      <div><dt>Inbox</dt><dd>Approvals, tickets waiting on you, open questions and memory notes, with browser and Android notifications.</dd></div>
+      <div><dt>Usage</dt><dd>Tokens, replies, writing speed and estimated cost per agent, per day and per conversation. Local models cost nothing.</dd></div>
+      <div><dt>Search</dt><dd>Ctrl+K searches every message, ticket, memory note, room fact and open item, and jumps to the message.</dd></div>
+      <div><dt>Message actions</dt><dd>Copy, edit and resend, regenerate, branch a conversation from any message, or export it as Markdown.</dd></div>
+      <div><dt>Memory browser</dt><dd>AZYL.memory&rsquo;s browser, built in behind the same sign-in: claims with their quotes, the graph, time travel, backups.</dd></div>
+      <div><dt>Mission control</dt><dd>Replay the last hour at up to 180&times; speed, a round-trip line per agent, and an alert when one goes offline.</dd></div>
+      <div><dt>Agent templates</dt><dd>Duplicate an agent with its settings and keys, or export its settings to a file (no keys) and import them.</dd></div>
+      <div><dt>Audit log</dt><dd>Filter by agent and kind, search and page through it. Archived every 16&nbsp;MB, with the hash chain unbroken across archives.</dd></div>
+      <div><dt>Everywhere</dt><dd>A light theme, a bottom bar on phones, an Android app, and one switcher to AZYL.inference and AZYL.memory.</dd></div>
+    </dl>
   </section>
 
   <!-- ── TRUST ── -->
@@ -838,12 +890,12 @@
       <ul class="track">
         <li>Claude (subscription)</li><li>Anthropic API</li><li>Grok (subscription)</li><li>xAI API</li>
         <li>ChatGPT (subscription)</li><li>OpenAI API</li><li>Hermes Agent</li><li>LM Studio</li><li>Ollama</li>
-        <li>llama.cpp · vLLM</li><li>OpenRouter</li><li>Webhook agents</li><li>AZYL.memory</li><li>Android app</li><li>Docker</li>
+        <li>llama.cpp · vLLM</li><li>OpenRouter</li><li>Webhook agents</li><li>AZYL.memory</li><li>AZYL.inference</li><li>Android app</li><li>Docker</li>
       </ul>
       <ul class="track copy" aria-hidden="true">
         <li>Claude (subscription)</li><li>Anthropic API</li><li>Grok (subscription)</li><li>xAI API</li>
         <li>ChatGPT (subscription)</li><li>OpenAI API</li><li>Hermes Agent</li><li>LM Studio</li><li>Ollama</li>
-        <li>llama.cpp · vLLM</li><li>OpenRouter</li><li>Webhook agents</li><li>AZYL.memory</li><li>Android app</li><li>Docker</li>
+        <li>llama.cpp · vLLM</li><li>OpenRouter</li><li>Webhook agents</li><li>AZYL.memory</li><li>AZYL.inference</li><li>Android app</li><li>Docker</li>
       </ul>
     </div>
   </section>
@@ -857,7 +909,7 @@
       <a class="action primary" href="../../#contact">Request early access</a>
       <a class="action" href="mailto:wally@azyl.ai?subject=AZYL.agents">wally@azyl.ai</a>
     </div>
-    <p class="fine shots-note">The screenshot and the sketches above show AZYL.agents with a demo team; the agents, servers and data in them are illustrative.</p>
+    <p class="fine shots-note">The screenshots and the sketches above show AZYL.agents with a demo team; the agents, servers and data in them are illustrative.</p>
   </section>
 
 </div>
