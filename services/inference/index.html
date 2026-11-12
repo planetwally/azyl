@@ -4,7 +4,7 @@
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>AZYL.inference — Your models, on your hardware.</title>
-<meta name="description" content="AZYL.inference runs local models on Ollama without the command line: it installs and supervises the engine, loads models when asked and unloads them when idle, and puts context, concurrency and every other setting on one page. From your desk or your phone. Written in Rust."/>
+<meta name="description" content="AZYL.inference runs local models on a llama.cpp-based engine without the command line: it installs and supervises the engine, loads models when asked and unloads them when idle, and puts context, concurrency and every other setting on one page. From your desk or your phone. Written in Rust."/>
 <meta name="theme-color" content="#1A1917"/>
 <meta name="robots" content="noindex"/>
 <link rel="icon" href="../../favicon.ico" sizes="any"/>
@@ -635,9 +635,9 @@
     </div>
 
     <p class="lede">Run local models on your own GPU without the command line. AZYL.inference installs and runs
-      Ollama for you, loads models when they&rsquo;re asked for and lets them go when they&rsquo;re not, and puts every
+      a llama.cpp-based engine for you, loads models when they&rsquo;re asked for and lets them go when they&rsquo;re not, and puts every
       setting that matters on one page, <em>with a friendly face on whatever is running.</em></p>
-    <p class="built"><b>Written in Rust</b><i> · </i><span>one 7&nbsp;MB binary · Ollama underneath · nothing leaves your machine</span></p>
+    <p class="built"><b>Written in Rust</b><i> · </i><span>one 7&nbsp;MB binary · llama.cpp-based engine underneath · nothing leaves your machine</span></p>
 
     <a class="scroll-cue" href="#tour" aria-label="Read on">
       <span>Read on</span>
@@ -677,7 +677,7 @@
       <span class="label">What it does</span>
       <div class="body">
         <h2>Your GPU, <em>run like a small server.</em></h2>
-        <p class="section-intro">Ollama does the inference. AZYL.inference does everything around it: installing it,
+        <p class="section-intro">A llama.cpp-based engine does the inference. AZYL.inference does everything around it: installing it,
           keeping it running, deciding what&rsquo;s in memory, and showing you, at a glance, what it&rsquo;s doing.</p>
       </div>
     </div>
@@ -699,8 +699,8 @@
         </div>
         <div class="tile-text">
           <span class="label">01 · The engine</span>
-          <h3>Ollama, without the terminal</h3>
-          <p>One click installs Ollama from its official release, with the ROCm libraries for AMD cards, into your home
+          <h3>llama.cpp, without the terminal</h3>
+          <p>One click installs the llama.cpp-based engine from its official release, with the ROCm libraries for AMD cards, into your home
             folder. AZYL starts it, stops it, updates it and brings it back after a crash. Its log is one click away.</p>
         </div>
       </article>
@@ -757,7 +757,7 @@
         <div class="art" aria-hidden="true">
           <div class="mini-import">
             <div class="imp-file">Qwen3.8-27B-Q4_K_M.gguf<span class="dim">LM Studio · 16.2 GB · vision projector found</span></div>
-            <div class="imp-phase"><span class="dim">Copying into Ollama</span><span>10.6 / 17.1 GB</span></div>
+            <div class="imp-phase"><span class="dim">Importing into the engine</span><span>10.6 / 17.1 GB</span></div>
             <div class="imp-bar"><i></i></div>
           </div>
         </div>
@@ -765,7 +765,7 @@
           <span class="label">05 · Bring your models</span>
           <h3>From LM Studio in a minute</h3>
           <p>It finds the GGUFs LM Studio downloaded, with their vision projectors, and imports them, keeping the sampling
-            each file recommends. Or pull from the Ollama library, or search Hugging Face and see what fits first.</p>
+            each file recommends. Or search Hugging Face and see what fits first.</p>
         </div>
       </article>
 
@@ -829,11 +829,11 @@
       </figure>
       <dl class="news">
         <div><dt>Hugging Face search</dt><dd>Lists every quantization of a GGUF repository with its size, says whether it fits wholly on your GPU, partly or not at all, and marks the best fit. Only your search words go to huggingface.co.</dd></div>
-        <div><dt>Avalon<span class="label">a second engine</span></dt><dd>Runs Qwen3.8-Flash-Next, a 107B mixture-of-experts model, with its experts in RAM and the busiest on the GPU. It shows up with your Ollama models, loads in about 20 seconds, and takes the GPU in turns with Ollama.</dd></div>
-        <div><dt>One address for every model</dt><dd>An Ollama- and OpenAI-compatible endpoint that sends each request to the engine that runs its model, and hands the GPU over on the way when it needs to.</dd></div>
-        <div><dt>Embeddings on the CPU</dt><dd>A second, GPU-less Ollama keeps an embedding model loaded for apps like AZYL.memory, so a search never waits for a model swap. About 8&nbsp;ms per query.</dd></div>
+        <div><dt>Avalon<span class="label">a second engine</span></dt><dd>Runs Qwen3.8-Flash-Next, a 107B mixture-of-experts model, with its experts in RAM and the busiest on the GPU. It shows up with your other models, loads in about 20 seconds, and takes the GPU in turns with the main engine.</dd></div>
+        <div><dt>One address for every model</dt><dd>An OpenAI-compatible endpoint that sends each request to the engine that runs its model, and hands the GPU over on the way when it needs to.</dd></div>
+        <div><dt>Embeddings on the CPU</dt><dd>A second, GPU-less llama.cpp instance keeps an embedding model loaded for apps like AZYL.memory, so a search never waits for a model swap. About 8&nbsp;ms per query.</dd></div>
         <div><dt>Speculative decoding</dt><dd>Models with a built-in MTP layer get a draft-length setting: on a 27B model, about 36% faster prose and 66% faster code on the same card.</dd></div>
-        <div><dt>Vulkan or ROCm</dt><dd>Pick the GPU backend Ollama uses, from the same engine settings page.</dd></div>
+        <div><dt>Vulkan or ROCm</dt><dd>Pick the GPU backend the engine uses, from the same engine settings page.</dd></div>
       </dl>
     </div>
   </section>
@@ -851,9 +851,9 @@
 
     <div class="otiles">
       <div class="otile"><span class="label">Binary</span><h3>One 7 MB file</h3><p>An async Rust server with the web app built in. Installed as a systemd user service, opened as its own window.</p></div>
-      <div class="otile"><span class="label">Supervision</span><h3>It owns the engine</h3><p>Ollama runs in its own process group, restarts after a crash, and stops with the app, even if the app is killed outright.</p></div>
-      <div class="otile"><span class="label">Installs</span><h3>Verified downloads</h3><p>Ollama comes from its GitHub release, is checked against the published SHA-256, and is swapped in only once it&rsquo;s whole.</p></div>
-      <div class="otile"><span class="label">Privacy</span><h3>Local by default</h3><p>The app and the engine listen on this computer only, and Ollama&rsquo;s cloud features are off. Your prompts stay on your GPU.</p></div>
+      <div class="otile"><span class="label">Supervision</span><h3>It owns the engine</h3><p>The engine runs in its own process group, restarts after a crash, and stops with the app, even if the app is killed outright.</p></div>
+      <div class="otile"><span class="label">Installs</span><h3>Verified downloads</h3><p>The engine comes from its GitHub release, is checked against the published SHA-256, and is swapped in only once it&rsquo;s whole.</p></div>
+      <div class="otile"><span class="label">Privacy</span><h3>Local by default</h3><p>The app and the engine listen on this computer only, and nothing calls out to the cloud. Your prompts stay on your GPU.</p></div>
       <div class="otile"><span class="label">Remote</span><h3>Your tailnet, your login</h3><p>Remote access goes through <code>tailscale serve</code>, and every request must carry an allowed Tailscale identity.</p></div>
       <div class="otile"><span class="label">Web app</span><h3>Hardened by default</h3><p>A DNS-rebinding guard, a custom header on every change and a strict content policy, so a web page can&rsquo;t drive your models.</p></div>
     </div>
@@ -867,12 +867,12 @@
     <span class="label">Works with</span>
     <div class="marquee">
       <ul class="track">
-        <li>Ollama</li><li>Avalon · 107B MoE</li><li>LM Studio models</li><li>GGUF files</li><li>Hugging Face</li><li>Ollama library</li>
+        <li>llama.cpp</li><li>Avalon · 107B MoE</li><li>LM Studio models</li><li>GGUF files</li><li>Hugging Face</li>
         <li>AMD ROCm</li><li>Vulkan</li><li>NVIDIA CUDA</li><li>OpenAI-compatible apps</li><li>AZYL.agents</li><li>AZYL.memory</li>
         <li>Tailscale</li><li>Android app</li><li>Linux · systemd</li><li>Qwen · Gemma · Llama</li>
       </ul>
       <ul class="track copy" aria-hidden="true">
-        <li>Ollama</li><li>Avalon · 107B MoE</li><li>LM Studio models</li><li>GGUF files</li><li>Hugging Face</li><li>Ollama library</li>
+        <li>llama.cpp</li><li>Avalon · 107B MoE</li><li>LM Studio models</li><li>GGUF files</li><li>Hugging Face</li>
         <li>AMD ROCm</li><li>Vulkan</li><li>NVIDIA CUDA</li><li>OpenAI-compatible apps</li><li>AZYL.agents</li><li>AZYL.memory</li>
         <li>Tailscale</li><li>Android app</li><li>Linux · systemd</li><li>Qwen · Gemma · Llama</li>
       </ul>
